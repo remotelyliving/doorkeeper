@@ -1,0 +1,34 @@
+{
+  "name": "remotelyLiving/doorman",
+  "description": "A Feature Flagger",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "keywords": ["Doorman", "Feature Flag"],
+  "authors": [
+    {
+      "name": "Christian Thomas",
+      "email": "christian.h.thomas@me.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0",
+    "psr/cache": "^1.0",
+    "psr/log": "^1.0",
+    "psr/http-message": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.1",
+    "squizlabs/php_codesniffer": "^2.8",
+    "satooshi/php-coveralls": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "RemotelyLiving\\Doorkeeper\\" : "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "RemotelyLiving\\Doorkeeper\\Tests\\" : "tests/"
+    }
+  }
+}

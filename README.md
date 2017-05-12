@@ -136,6 +136,8 @@ But that means that in ANY environment, that ip address will be allowed.
 The proper way to setup exclusions would be to set the ip address rule as a prerequisite rule to the environment one.
 That would then stipulate that only this ip address in this environment can access.
 
+A Feature with no rules simply relies on the `enabled` field to tell Doorkeeper if it's on or off
+
 ### Feature Set
 
 A feature set object is the bread and butter of Doorkeeper. It's a collection of Features and rules and makes for easy

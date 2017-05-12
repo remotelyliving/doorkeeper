@@ -38,8 +38,12 @@ class DoorKeeperTest extends TestCase
             new Rules\Percentage('disabled app', 100),
         ]);
 
-        $feature_4         = new Feature('no', true, [ new Rules\StringHash('no', 'hash') ]);
-        $this->feature_set = new Set([$feature_1, $feature_2, $feature_3, $feature_4]);
+        $feature_4 = new Feature('no', true, [
+            new Rules\StringHash('no', 'hash')
+        ]);
+
+        $feature_5         = new Feature('no rules', true);
+        $this->feature_set = new Set([$feature_1, $feature_2, $feature_3, $feature_4, $feature_5]);
         $this->logger      = $this->createMock(LoggerInterface::class);
         $this->sut         = new Doorkeeper($this->feature_set, $this->logger);
     }
@@ -65,6 +69,15 @@ class DoorKeeperTest extends TestCase
     {
         $this->sut->setRequestor(new Requestor());
         $this->sut->setRequestor(new Requestor());
+    }
+
+    /**
+     * @test
+     */
+    public function grantsAccessToFeatureWithoutRules()
+    {
+        $this->assertTrue($this->sut->grantsAccessTo('no rules'));
+        $this->assertFalse($this->sut->grantsAccessTo('no'));
     }
 
     /**

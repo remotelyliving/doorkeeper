@@ -97,6 +97,10 @@ class Doorkeeper
             return false;
         }
 
+        if ($feature->isEnabled() && !$feature->getRules()) {
+            return true;
+        }
+
         $fallback = function () use ($feature, $requestor, $log_context): bool {
             foreach ($feature->getRules() as $rule) {
                 if ($rule->canBeSatisfied($requestor)) {

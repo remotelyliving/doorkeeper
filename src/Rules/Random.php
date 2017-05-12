@@ -11,6 +11,10 @@ class Random extends RuleAbstract
      */
     private $randomizer;
 
+    /**
+     * @param string                                               $feature_id
+     * @param \RemotelyLiving\Doorkeeper\Utilities\Randomizer|null $randomizer
+     */
     public function __construct(string $feature_id, Randomizer $randomizer = null)
     {
         parent::__construct($feature_id);
@@ -23,6 +27,7 @@ class Random extends RuleAbstract
      */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        return ($this->randomizer->generateRangedRandomInt(1, 100000) % 2 === 0);
+        return ($this->randomizer->generateRangedRandomInt(1, 100)
+            === $this->randomizer->generateRangedRandomInt(1, 100));
     }
 }

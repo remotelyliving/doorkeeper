@@ -19,7 +19,7 @@ class RandomTest extends TestCase
         $rule = new Random('some id', $randomizer);
 
         $randomizer->method('mtRand')
-          ->with(1, 100000)
+          ->with(1, 100)
           ->willReturn(10);
 
         $this->assertTrue($rule->canBeSatisfied());

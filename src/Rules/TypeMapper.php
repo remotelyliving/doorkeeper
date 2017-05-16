@@ -13,6 +13,8 @@ class TypeMapper
     public const RULE_TYPE_STRING_HASH = 5;
     public const RULE_TYPE_USER_ID     = 6;
     public const RULE_TYPE_ENVIRONMENT = 7;
+    public const RULE_TYPE_BEFORE      = 8;
+    public const RULE_TYPE_AFTER       = 9;
 
     /**
      * @var string[]
@@ -54,6 +56,8 @@ class TypeMapper
             self::RULE_TYPE_STRING_HASH => StringHash::class,
             self::RULE_TYPE_USER_ID     => UserId::class,
             self::RULE_TYPE_ENVIRONMENT => Environment::class,
+            self::RULE_TYPE_BEFORE      => TimeBefore::class,
+            self::RULE_TYPE_AFTER       => TimeAfter::class,
         ];
     }
 }

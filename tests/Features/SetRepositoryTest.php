@@ -6,6 +6,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use RemotelyLiving\Doorkeeper\Features\Feature;
 use RemotelyLiving\Doorkeeper\Features\HydratableFallbackInterface;
 use RemotelyLiving\Doorkeeper\Features\Set;
+use RemotelyLiving\Doorkeeper\Features\SetProviderInterface;
 use RemotelyLiving\Doorkeeper\Features\SetRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -84,11 +85,14 @@ class SetRepositoryTest extends TestCase
           ->with(SetRepository::generateFeatureSetCacheKey())
           ->willReturn($cache_item);
 
-        $other_query = function (): Set {
-            return new Set([new Feature('lioi', true)]);
+        $other_provider = new class implements SetProviderInterface {
+            public function getFeatureSet(): Set
+            {
+                return new Set([new Feature('lioi', true)]);
+            }
         };
 
-        $this->assertEquals(new Set([new Feature('lioi', true)]), $this->sut->getFeatureSet($other_query));
+        $this->assertEquals(new Set([new Feature('lioi', true)]), $this->sut->getFeatureSet($other_provider));
     }
 
     /**

@@ -30,17 +30,17 @@ class SetRepository
     }
 
     /**
-     * @param callable|null $fallback
+     * @param \RemotelyLiving\Doorkeeper\Features\SetProviderInterface|null $fallback
      *
      * @return \RemotelyLiving\Doorkeeper\Features\Set
      */
-    public function getFeatureSet(callable $fallback = null): Set
+    public function getFeatureSet(SetProviderInterface $fallback = null): Set
     {
         $result = $this->cache->getItem(self::generateFeatureSetCacheKey())->get();
 
         if (!$result && $fallback) {
-            $result = $fallback();
-            $this->saveFeatureSet($result);
+            $result = $fallback->getFeatureSet();
+            $this->saveFeatureSet($fallback->getFeatureSet());
         }
 
         return ($result) ?? new Set();

@@ -1,9 +1,9 @@
 {
-  "name": "remotelyLiving/doorman",
-  "description": "A Feature Flagger",
+  "name": "remotelyliving/doorkeeper",
+  "description": "A Feature Toggle",
   "minimum-stability": "stable",
   "license": "proprietary",
-  "keywords": ["Doorman", "Feature Flag"],
+  "keywords": ["Doorkeeper", "Feature Flag"],
   "authors": [
     {
       "name": "Christian Thomas",

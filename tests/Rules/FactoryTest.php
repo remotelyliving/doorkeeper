@@ -10,6 +10,8 @@ use RemotelyLiving\Doorkeeper\Rules\IpAddress;
 use RemotelyLiving\Doorkeeper\Rules\Percentage;
 use RemotelyLiving\Doorkeeper\Rules\Random;
 use RemotelyLiving\Doorkeeper\Rules\StringHash;
+use RemotelyLiving\Doorkeeper\Rules\TimeAfter;
+use RemotelyLiving\Doorkeeper\Rules\TimeBefore;
 use RemotelyLiving\Doorkeeper\Rules\TypeMapper;
 use RemotelyLiving\Doorkeeper\Rules\UserId;
 
@@ -31,6 +33,8 @@ class FactoryTest extends TestCase
         $env_w_prq   = new Environment($feature_id, 'DEV');
         $env_w_prq->setPrerequisite($header);
 
+        $time_before = new TimeBefore($feature_id, '2013-12-12');
+        $time_after  = new TimeAfter($feature_id, '2012-12-12');
         $factory     = new Factory();
 
         $this->assertEquals($random, $factory->createFromArray([
@@ -59,6 +63,14 @@ class FactoryTest extends TestCase
 
         $this->assertEquals($env, $factory->createFromArray([
             'feature_id' => $feature_id, 'type' => TypeMapper::RULE_TYPE_ENVIRONMENT, 'value' => 'DEV',
+        ]));
+
+        $this->assertEquals($time_after, $factory->createFromArray([
+            'feature_id' => $feature_id, 'type' => TypeMapper::RULE_TYPE_AFTER, 'value' => '2012-12-12',
+        ]));
+
+        $this->assertEquals($time_before, $factory->createFromArray([
+            'feature_id' => $feature_id, 'type' => TypeMapper::RULE_TYPE_BEFORE, 'value' => '2013-12-12',
         ]));
 
         $this->assertEquals($env_w_prq, $factory->createFromArray([

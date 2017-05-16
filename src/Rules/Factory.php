@@ -82,6 +82,12 @@ class Factory
           Environment::class => function (array $fields) {
               return new Environment($fields['feature_id'], $fields['value']);
           },
+          TimeBefore::class => function (array $fields) {
+              return new TimeBefore($fields['feature_id'], $fields['value']);
+          },
+          TimeAfter::class => function (array $fields) {
+              return new TimeAfter($fields['feature_id'], $fields['value']);
+          },
         ];
     }
 }

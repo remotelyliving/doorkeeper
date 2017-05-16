@@ -27,26 +27,39 @@ by changing that configuration.
 ### Wiring it up
 
 ```php
+// Requestors are the actor requesting access to a new feature
+// They have several forms of identity you can initialize them
+$requestor = ( new Requestor() )
+    ->withUserId($logged_in_user->id)
+    ->withRequest($psr7_request)
+    ->withIpAddress('127.0.0.1')
+    ->withEnvironment('STAGE')
+    ->withStringHash('someArbitraryThingMaybeFromTheQueryString');
+ 
+// A Feature Set has Features that have Rules     
 $feature_set = $feature_set_repository->getSet();
 
-// Doorkeper takes in a feature set and an audit log if you want to log access results
+// Doorkeper takes in a Feature Set and an audit log if you want to log access results
 $doorkeeper  = new Doorkeeper($feature_set, $logger);
 
-$doorkeeper->setRequestor($service_container['requestor']);
+
+// Set an instance bound requestor here or pass one to Doorkeeper::grantsAccessToRequestor() later
+$doorkeeper->setRequestor($requestor);
 ```
 
 ### Usage
 
 ```php
-if ($doorkeeper->grantsAccessTo('someNewFeature') {
+if ($doorkeeper->grantsAccessTo('some.new.feature') {
     return $this->doNewFeatureStuff();
 }
 
-// OR if you want to bypass the instance Requestor that was set and create another use `Doorkeeper::grantsAccessToRequestor()`
+// If you want to bypass the instance Requestor that was set and create another use Doorkeeper::grantsAccessToRequestor()
 // This is useful for jobs where you're hydrating batches of user data and processing them
+
 $other_requestor = (new Requestor)->withUserId($user_id);
 
-if ($doorkeeper->grantsAccessToRequestor('someNewFeature', $other_requestor)) {
+if ($doorkeeper->grantsAccessToRequestor('some.new.feature', $other_requestor)) {
     return $this->doNewFeatureStuff();
 }
 ```
@@ -96,7 +109,9 @@ There are several types of Rules to use when defining access to a feature
 
 - TimeAfter: allows for access to a feature only *after* the set time on the rule.
 
-- User Id: this rule allows for specific user access to a feature.
+- TimeBefore: allows for access to a feature only *before* the set time of the rule.
+
+- UserId: this rule allows for specific user access to a feature.
  *User Id only works if the Request has a user id identification registered to them
  
 ### Prerequisistes
@@ -104,7 +119,13 @@ There are several types of Rules to use when defining access to a feature
 Rules can be dependant on other rules for any other feature.
 
 ```php
-$rule->setPrerequisite($someOtherRule);
+// create a time range
+$time_before_rule->setPrerequisite($time_after_rule);
+
+// create a user id rule only for prod
+$user_id_rule->setPrerequisite($prod_environment_rule);
+
+// etc.
 ```
 
 That prerequisite must be satisfied before the other rule is evaluated.
@@ -117,7 +138,7 @@ A Feature is what a Requestor is asking for by name. It can have 0-n Rules aroun
 A Feature has a top level on/off switch called `enabled` that can bypass any rules.
 
 ```php
-$feature = new Feature('theFeatureName', $enabled, $rules);
+$feature = new Feature('some.new.feature', $enabled, $rules);
 ```
 
 Doorkeeper gets the rules from a feature and evaluates them. If they require a specific Identification
@@ -160,7 +181,7 @@ Checkout that factory method to see the schema of the array that needs to be pas
 How you choose to persist Features is up to you. But there are two things you're responsible for if using the `Features\SetRepository`
 
 1. Clearing the cache when any member of a Feature Set is changed via `SetRepository::deleteFeatureSet()`
-2. Providing a callback that can provide a hydrated Feature Set to the `get('featureId', $returnsAFeatureSetIfNeedBe)` method
+2. Providing a service that can provide a hydrated Feature Set to the `get('some.new.feature', $feature_set_provider)` method
 
 Doorkeeper also has a runtime cache that caches answers in memory to help as well.
 For persistent applications you'll need to call `Doorkeeper::flushRuntimeCache()`

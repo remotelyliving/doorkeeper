@@ -2,7 +2,7 @@
   "name": "remotelyliving/doorkeeper",
   "description": "A Feature Toggle",
   "minimum-stability": "stable",
-  "license": "proprietary",
+  "license": "MIT",
   "keywords": ["Doorkeeper", "Feature Flag"],
   "authors": [
     {

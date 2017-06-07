@@ -8,7 +8,7 @@ class Feature
     /**
      * @var string
      */
-    private $id;
+    private $name;
 
     /**
      * @var bool
@@ -21,13 +21,13 @@ class Feature
     private $rule_set = [];
 
     /**
-     * @param string                                           $id
+     * @param string                                           $name
      * @param bool                                             $enabled
      * @param \RemotelyLiving\Doorkeeper\Rules\RuleInterface[] $rules
      */
-    public function __construct(string $id, bool $enabled, array $rules = [])
+    public function __construct(string $name, bool $enabled, array $rules = [])
     {
-        $this->id       = $id;
+        $this->name       = $name;
         $this->enabled  = $enabled;
 
         foreach ($rules as $rule) {
@@ -38,9 +38,9 @@ class Feature
     /**
      * @return string
      */
-    public function getId(): string
+    public function getName(): string
     {
-        return $this->id;
+        return $this->name;
     }
 
     /**
@@ -58,11 +58,11 @@ class Feature
      */
     public function addRule(Rules\RuleInterface $rule): void
     {
-        if ($rule->getFeatureId() !== $this->id) {
+        if ($rule->getFeatureId() !== $this->name) {
             throw new \DomainException(sprintf(
                 'Rules for %s may not be added to rules for feature %s',
                 $rule->getFeatureId(),
-                $this->id
+                $this->name
             ));
         }
 

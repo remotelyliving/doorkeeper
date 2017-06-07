@@ -14,12 +14,12 @@ class HttpHeader extends RuleAbstract
     private $header;
 
     /**
-     * @param string $feature_id
+     * @param string $feature_name
      * @param string $header_value
      */
-    public function __construct(string $feature_id, string $header_value)
+    public function __construct(string $feature_name, string $header_value)
     {
-        parent::__construct($feature_id);
+        parent::__construct($feature_name);
 
         $this->header = new Identification\HttpHeader($header_value);
     }

@@ -14,12 +14,12 @@ class IpAddress extends RuleAbstract
     /**
      * IpAddress constructor.
      *
-     * @param string $feature_id
+     * @param string $feature_name
      * @param string $ip_address
      */
-    public function __construct(string $feature_id, string $ip_address)
+    public function __construct(string $feature_name, string $ip_address)
     {
-        parent::__construct($feature_id);
+        parent::__construct($feature_name);
 
         $this->ip_address = new Identification\IpAddress($ip_address);
     }

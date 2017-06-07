@@ -8,7 +8,7 @@ abstract class RuleAbstract implements RuleInterface
     /**
      * @var string
      */
-    private $feature_id;
+    private $feature_name;
 
     /**
      * @var \RemotelyLiving\Doorkeeper\Rules\RuleAbstract
@@ -18,11 +18,11 @@ abstract class RuleAbstract implements RuleInterface
     /**
      * Random constructor.
      *
-     * @param string $feature_id
+     * @param string $feature_name
      */
-    public function __construct(string $feature_id)
+    public function __construct(string $feature_name)
     {
-        $this->feature_id = $feature_id;
+        $this->feature_id = $feature_name;
     }
 
     /**

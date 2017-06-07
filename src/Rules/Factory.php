@@ -62,31 +62,31 @@ class Factory
     {
         $this->create_map = [
           HttpHeader::class => function (array $fields) {
-            return new HttpHeader($fields['feature_id'], $fields['value']);
+            return new HttpHeader($fields['feature_name'], $fields['value']);
           },
           IpAddress::class  => function (array $fields) {
-            return new IpAddress($fields['feature_id'], $fields['value']);
+            return new IpAddress($fields['feature_name'], $fields['value']);
           },
           Percentage::class => function (array $fields) {
-            return new Percentage($fields['feature_id'], $fields['value']);
+            return new Percentage($fields['feature_name'], $fields['value']);
           },
           Random::class => function (array $fields) {
-            return new Random($fields['feature_id']);
+            return new Random($fields['feature_name']);
           },
           StringHash::class => function (array $fields) {
-            return new StringHash($fields['feature_id'], $fields['value']);
+            return new StringHash($fields['feature_name'], $fields['value']);
           },
           UserId::class => function (array $fields) {
-            return new UserId($fields['feature_id'], $fields['value']);
+            return new UserId($fields['feature_name'], $fields['value']);
           },
           Environment::class => function (array $fields) {
-              return new Environment($fields['feature_id'], $fields['value']);
+              return new Environment($fields['feature_name'], $fields['value']);
           },
           TimeBefore::class => function (array $fields) {
-              return new TimeBefore($fields['feature_id'], $fields['value']);
+              return new TimeBefore($fields['feature_name'], $fields['value']);
           },
           TimeAfter::class => function (array $fields) {
-              return new TimeAfter($fields['feature_id'], $fields['value']);
+              return new TimeAfter($fields['feature_name'], $fields['value']);
           },
         ];
     }

@@ -12,12 +12,12 @@ class Environment extends RuleAbstract
     private $environment;
 
     /**
-     * @param string $feature_id
+     * @param string $feature_name
      * @param string $environment
      */
-    public function __construct(string $feature_id, string $environment)
+    public function __construct(string $feature_name, string $environment)
     {
-        parent::__construct($feature_id);
+        parent::__construct($feature_name);
 
         $this->environment = new Identification\Environment($environment);
     }

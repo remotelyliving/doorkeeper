@@ -63,34 +63,34 @@ class Doorkeeper
     }
 
     /**
-     * @param string $feature_id
+     * @param string $feature_name
      *
      * @return bool
      */
-    public function grantsAccessTo(string $feature_id): bool
+    public function grantsAccessTo(string $feature_name): bool
     {
-        return $this->grantsAccessToRequestor($feature_id, $this->requestor);
+        return $this->grantsAccessToRequestor($feature_name, $this->requestor);
     }
 
     /**
-     * @param string                                    $feature_id
+     * @param string                                    $feature_name
      * @param \RemotelyLiving\Doorkeeper\Requestor|null $requestor
      *
      * @return bool
      */
-    public function grantsAccessToRequestor(string $feature_id, Requestor $requestor = null): bool
+    public function grantsAccessToRequestor(string $feature_name, Requestor $requestor = null): bool
     {
         $log_context = [
             Processor::CONTEXT_KEY_REQUESTOR => $requestor,
-            Processor::FEATURE_ID            => $feature_id,
+            Processor::FEATURE_ID            => $feature_name,
         ];
 
-        if (!$this->feature_set->offsetExists($feature_id)) {
+        if (!$this->feature_set->offsetExists($feature_name)) {
             $this->logAttempt('Access denied because feature does not exist.', $log_context);
             return false;
         }
 
-        $feature = $this->feature_set->getFeatureById($feature_id);
+        $feature = $this->feature_set->getFeatureByName($feature_name);
 
         if (!$feature->isEnabled()) {
             $this->logAttempt('Access denied because feature is disabled.', $log_context);
@@ -113,7 +113,7 @@ class Doorkeeper
             return false;
         };
 
-        $cache_key = md5(sprintf('%s:%s', $feature_id, ($requestor) ? $requestor->getIdentityHash(): ''));
+        $cache_key = md5(sprintf('%s:%s', $feature_name, ($requestor) ? $requestor->getIdentityHash(): ''));
 
         return $this->runtime_cache->get($cache_key, $fallback);
     }

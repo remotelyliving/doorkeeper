@@ -19,16 +19,16 @@ class Percentage extends RuleAbstract
     /**
      * Percentage constructor.
      *
-     * @param string $feature_id
+     * @param string $feature_name
      * @param int    $percentage
      */
-    public function __construct(string $feature_id, int $percentage, Randomizer $randomizer = null)
+    public function __construct(string $feature_name, int $percentage, Randomizer $randomizer = null)
     {
         if ($percentage < 0 || $percentage > 100) {
             throw new \InvalidArgumentException("Percentage must be represented as a value from 1 to 100");
         }
 
-        parent::__construct($feature_id);
+        parent::__construct($feature_name);
 
         $this->chances = $percentage;
         $this->randomizer = $randomizer ?? new Randomizer();
@@ -45,12 +45,6 @@ class Percentage extends RuleAbstract
             return true;
         }
 
-        for ($i = 0; $i < $this->chances; $i++) {
-            if ($lottery_number === $this->randomizer->generateRangedRandomInt(1, $this->chances)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $lottery_number <= $this->chances;
     }
 }

@@ -23,17 +23,17 @@ class Set
      */
     public function pushFeature(Feature $feature): void
     {
-        $this->features[$feature->getId()] = $feature;
+        $this->features[$feature->getName()] = $feature;
     }
 
     /**
-     * @param string $feature_id
+     * @param string $feature_name
      *
      * @return bool
      */
-    public function offsetExists(string $feature_id): bool
+    public function offsetExists(string $feature_name): bool
     {
-        return isset($this->features[$feature_id]);
+        return isset($this->features[$feature_name]);
     }
 
     /**
@@ -45,16 +45,16 @@ class Set
     }
 
     /**
-     * @param string $feature_id
+     * @param string $feature_name
      *
      * @return \RemotelyLiving\Doorkeeper\Features\Feature
      */
-    public function getFeatureById(string $feature_id): Feature
+    public function getFeatureByName(string $feature_name): Feature
     {
-        if (!$this->offsetExists($feature_id)) {
-            throw new \OutOfBoundsException("Feature {$feature_id} does not exist");
+        if (!$this->offsetExists($feature_name)) {
+            throw new \OutOfBoundsException("Feature {$feature_name} does not exist");
         }
 
-        return $this->features[$feature_id];
+        return $this->features[$feature_name];
     }
 }

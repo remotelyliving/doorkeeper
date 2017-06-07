@@ -26,7 +26,7 @@ class FeatureTest extends TestCase
     {
         $feature = new Feature('someId', false);
 
-        $this->assertSame('someId', $feature->getId());
+        $this->assertSame('someId', $feature->getName());
     }
 
     /**

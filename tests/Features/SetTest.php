@@ -18,9 +18,9 @@ class SetTest extends TestCase
         $set = new Set([$feature_1, $feature_2]);
 
         $this->assertEquals(['feature1Id' => $feature_1, 'feature2Id' => $feature_2], $set->getFeatures());
-        $this->assertEquals($feature_1, $set->getFeatureById($feature_1->getId()));
+        $this->assertEquals($feature_1, $set->getFeatureByName($feature_1->getName()));
         $this->assertFalse($set->offsetExists('boop'));
-        $this->assertTrue($set->offsetExists($feature_2->getId()));
+        $this->assertTrue($set->offsetExists($feature_2->getName()));
     }
 
     /**
@@ -29,6 +29,6 @@ class SetTest extends TestCase
      */
     public function throwsOutOfBoundsExceptionWhenFeatureNotFound()
     {
-        (new Set())->getFeatureById('slkf');
+        (new Set())->getFeatureByName('slkf');
     }
 }

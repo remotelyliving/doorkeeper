@@ -31,6 +31,6 @@ class Factory
             $rules[] = $this->rule_factory->createFromArray($rule);
         }
 
-        return new Feature($feature['id'], $feature['enabled'], $rules);
+        return new Feature($feature['name'], $feature['enabled'], $rules);
     }
 }

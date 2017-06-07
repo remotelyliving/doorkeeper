@@ -29,7 +29,7 @@ class FactoryTest extends TestCase
     {
         return [
           'set 1' => [
-            [ 'id' => 'boop', 'enabled' => true, 'rules' => [ [ 'feature_id' => 'boop', 'type' => Random::class ] ] ],
+            [ 'name' => 'boop', 'enabled' => true, 'rules' => [ [ 'feature_name' => 'boop', 'type' => Random::class ] ] ],
             new Feature('boop', true, [ new Random('boop') ]),
           ]
         ];

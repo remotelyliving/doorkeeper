@@ -22,7 +22,7 @@ class TimeAfterTest extends TestCase
               [ 'now', new \DateTimeImmutable('2011-12-12')],
           ]);
 
-        $rule = new TimeAfter('some id', 'boop', $time);
+        $rule = new TimeAfter('boop', $time);
 
         $this->assertTrue($rule->canBeSatisfied());
     }
@@ -42,7 +42,7 @@ class TimeAfterTest extends TestCase
                 [ 'now', new \DateTimeImmutable('2011-11-12')],
             ]);
 
-        $rule = new TimeAfter('some id', 'boop', $time);
+        $rule = new TimeAfter('boop', $time);
 
         $this->assertFalse($rule->canBeSatisfied());
     }

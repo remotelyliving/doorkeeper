@@ -14,7 +14,7 @@ class EnvironmentTest extends TestCase
      */
     public function canBeSatisfied()
     {
-        $rule      = new Environment('some id', 'DEV');
+        $rule      = new Environment('DEV');
         $requestor = new Requestor();
 
         $this->assertFalse($rule->canBeSatisfied());
@@ -28,8 +28,8 @@ class EnvironmentTest extends TestCase
      */
     public function cannotBeSatisfiedWithFalseyPrereq()
     {
-        $rule      = new Environment('some id', 'DEV');
-        $prereq    = new HttpHeader('some id', 'headerValue');
+        $rule   = new Environment('DEV');
+        $prereq = new HttpHeader('headerValue');
 
         $rule->setPrerequisite($prereq);
 
@@ -47,8 +47,8 @@ class EnvironmentTest extends TestCase
      */
     public function canBeSatisfiedWithTruthyPrereq()
     {
-        $rule      = new Environment('some id', 'DEV');
-        $prereq    = new UserId('some id', 321);
+        $rule   = new Environment('DEV');
+        $prereq = new UserId(321);
 
         $rule->setPrerequisite($prereq);
 
@@ -67,8 +67,8 @@ class EnvironmentTest extends TestCase
      */
     public function setPrerequisiteTwice()
     {
-        $rule      = new Environment('some id', 'DEV');
-        $prereq    = new UserId('some id', 321);
+        $rule   = new Environment('DEV');
+        $prereq = new UserId(321);
 
         $rule->setPrerequisite($prereq);
         $rule->setPrerequisite($prereq);

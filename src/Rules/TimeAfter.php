@@ -17,14 +17,11 @@ class TimeAfter extends RuleAbstract
     private $time_utility;
 
     /**
-     * @param string                                         $feature_name
      * @param string                                         $time_after
      * @param \RemotelyLiving\Doorkeeper\Utilities\Time|null $time_utility
      */
-    public function __construct(string $feature_name, string $time_after, Utilities\Time $time_utility = null)
+    public function __construct(string $time_after, Utilities\Time $time_utility = null)
     {
-        parent::__construct($feature_name);
-
         $this->time_utility = $time_utility ?? new Utilities\Time();
         $this->time_after   = $this->time_utility->getImmutableDateTime($time_after);
     }

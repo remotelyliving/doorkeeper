@@ -16,7 +16,7 @@ class RandomTest extends TestCase
           ->setMethods(['mtRand'])
           ->getMock();
 
-        $rule = new Random('some id', $randomizer);
+        $rule = new Random($randomizer);
 
         $randomizer->method('mtRand')
           ->with(1, 100)

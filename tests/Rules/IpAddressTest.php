@@ -12,7 +12,7 @@ class IpAddressTest extends TestCase
      */
     public function canBeSatisfied()
     {
-        $rule      = new IpAddress('some id', '127.0.0.1');
+        $rule      = new IpAddress('127.0.0.1');
         $requestor = new Requestor();
 
         $this->assertFalse($rule->canBeSatisfied());

@@ -6,39 +6,16 @@ use RemotelyLiving\Doorkeeper\Requestor;
 abstract class RuleAbstract implements RuleInterface
 {
     /**
-     * @var string
+     * @var \RemotelyLiving\Doorkeeper\Rules\RuleInterface
      */
-    private $feature_name;
+    private $prerequisite;
 
     /**
-     * @var \RemotelyLiving\Doorkeeper\Rules\RuleAbstract
-     */
-    private $prerequisite = null;
-
-    /**
-     * Random constructor.
-     *
-     * @param string $feature_name
-     */
-    public function __construct(string $feature_name)
-    {
-        $this->feature_id = $feature_name;
-    }
-
-    /**
-     * @return string
-     */
-    final public function getFeatureId(): string
-    {
-        return $this->feature_id;
-    }
-
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Rules\RuleAbstract $rule
+     * @param \RemotelyLiving\Doorkeeper\Rules\RuleInterface $rule
      *
      * @throws \DomainException
      */
-    public function setPrerequisite(RuleAbstract $rule): void
+    final public function setPrerequisite(RuleInterface $rule): void
     {
         if ($this->prerequisite) {
             throw new \DomainException('Prerequisite rule already set');

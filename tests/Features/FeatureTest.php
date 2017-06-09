@@ -35,7 +35,7 @@ class FeatureTest extends TestCase
     public function getRules()
     {
         $feature = new Feature('someId', true);
-        $rule = new Random('someId');
+        $rule = new Random();
 
         $this->assertEmpty($feature->getRules());
 
@@ -44,15 +44,5 @@ class FeatureTest extends TestCase
         $rules = $feature->getRules();
 
         $this->assertSame($rule, array_shift($rules));
-    }
-
-    /**
-     * @test
-     *
-     * @expectedException \DomainException
-     */
-    public function protectsAgainstBadRuleBindings()
-    {
-        (new Feature('someId', true))->addRule(new Random('otherId'));
     }
 }

@@ -16,7 +16,7 @@ class PercentageTest extends TestCase
           ->setMethods(['mtRand'])
           ->getMock();
 
-        $rule = new Percentage('some id', 5, $randomizer);
+        $rule = new Percentage(5, $randomizer);
 
         $randomizer
           ->method('mtRand')
@@ -33,7 +33,7 @@ class PercentageTest extends TestCase
      */
     public function canBeSatisfied100PercentChance()
     {
-        $rule = new Percentage('some id', 100);
+        $rule = new Percentage(100);
 
         $this->assertTrue($rule->canBeSatisfied());
     }
@@ -43,7 +43,7 @@ class PercentageTest extends TestCase
      */
     public function canBeSatisfied0PercentChance()
     {
-        $rule = new Percentage('some id', 0);
+        $rule = new Percentage(0);
 
         $this->assertFalse($rule->canBeSatisfied());
     }
@@ -54,7 +54,7 @@ class PercentageTest extends TestCase
      */
     public function invalidPercentageOverOneHundred()
     {
-        new Percentage('boop', 101);
+        new Percentage(101);
     }
 
     /**
@@ -63,6 +63,6 @@ class PercentageTest extends TestCase
      */
     public function invalidPercentageNegativeNumber()
     {
-        new Percentage('boop', -1);
+        new Percentage(-1);
     }
 }

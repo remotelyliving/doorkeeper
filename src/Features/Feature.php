@@ -58,14 +58,6 @@ class Feature
      */
     public function addRule(Rules\RuleInterface $rule): void
     {
-        if ($rule->getFeatureId() !== $this->name) {
-            throw new \DomainException(sprintf(
-                'Rules for %s may not be added to rules for feature %s',
-                $rule->getFeatureId(),
-                $this->name
-            ));
-        }
-
         $this->rule_set[] = $rule;
     }
 

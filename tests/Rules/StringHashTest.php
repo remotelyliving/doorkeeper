@@ -12,7 +12,7 @@ class StringHashTest extends TestCase
      */
     public function canBeSatisfied()
     {
-        $rule      = new StringHash('some id', '1lk2j34lk');
+        $rule      = new StringHash('1lk2j34lk');
         $requestor = new Requestor();
 
         $this->assertFalse($rule->canBeSatisfied());

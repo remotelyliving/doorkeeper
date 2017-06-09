@@ -7,11 +7,6 @@ use RemotelyLiving\Doorkeeper\Requestor;
 interface RuleInterface
 {
     /**
-     * @return string
-     */
-    public function getFeatureId(): string;
-
-    /**
      * @param \RemotelyLiving\Doorkeeper\Requestor|null $requestor
      *
      * @return bool

@@ -25,21 +25,21 @@ class DoorKeeperTest extends TestCase
         parent::setUp();
 
         $feature_1 = new Feature('new shiny', true, [
-            new Rules\HttpHeader('new shiny', 'header'),
-            new Rules\UserId('new shiny', 321),
-            new Rules\Environment('new shiny', 'DEV'),
+            new Rules\HttpHeader('header'),
+            new Rules\UserId(321),
+            new Rules\Environment('DEV'),
         ]);
 
         $feature_2 = new Feature('killer app', true, [
-            new Rules\Percentage('killer app', 100),
+            new Rules\Percentage(100),
         ]);
 
         $feature_3 = new Feature('disabled app', false, [
-            new Rules\Percentage('disabled app', 100),
+            new Rules\Percentage(100),
         ]);
 
         $feature_4 = new Feature('no', true, [
-            new Rules\StringHash('no', 'hash')
+            new Rules\StringHash('hash')
         ]);
 
         $feature_5         = new Feature('no rules', true);

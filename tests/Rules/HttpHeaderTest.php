@@ -18,7 +18,7 @@ class HttpHeaderTest extends TestCase
             ->with(\RemotelyLiving\Doorkeeper\Rules\HttpHeader::HEADER_KEY)
             ->willReturn('the header');
 
-        $rule = new HttpHeader('some id', 'the header');
+        $rule = new HttpHeader('the header');
 
         $requestor = new Requestor();
 

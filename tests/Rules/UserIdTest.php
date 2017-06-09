@@ -12,7 +12,7 @@ class UserIdTest extends TestCase
      */
     public function canBeSatisfied()
     {
-        $rule      = new UserId('some id', 123);
+        $rule      = new UserId(123);
         $requestor = new Requestor();
 
         $this->assertFalse($rule->canBeSatisfied());

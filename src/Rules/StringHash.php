@@ -12,13 +12,10 @@ class StringHash extends RuleAbstract
     private $hash;
 
     /**
-     * @param string $feature_name
      * @param string $hash
      */
-    public function __construct(string $feature_name, string $hash)
+    public function __construct(string $hash)
     {
-        parent::__construct($feature_name);
-
         $this->hash = new Identification\StringHash($hash);
     }
 

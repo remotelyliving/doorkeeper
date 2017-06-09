@@ -12,14 +12,11 @@ class UserId extends RuleAbstract
     private $user_id;
 
     /**
-     * @param string $feature_name
-     * @param int    $hash
+     * @param int $user_id
      */
-    public function __construct(string $feature_name, int $hash)
+    public function __construct(int $user_id)
     {
-        parent::__construct($feature_name);
-
-        $this->user_id = new Identification\IntegerId($hash);
+        $this->user_id = new Identification\IntegerId($user_id);
     }
 
     /**

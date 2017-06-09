@@ -12,13 +12,10 @@ class Random extends RuleAbstract
     private $randomizer;
 
     /**
-     * @param string                                               $feature_name
      * @param \RemotelyLiving\Doorkeeper\Utilities\Randomizer|null $randomizer
      */
-    public function __construct(string $feature_name, Randomizer $randomizer = null)
+    public function __construct(Randomizer $randomizer = null)
     {
-        parent::__construct($feature_name);
-
         $this->randomizer = $randomizer ?? new Randomizer();
     }
 

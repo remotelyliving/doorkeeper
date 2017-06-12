@@ -7,6 +7,16 @@ use RemotelyLiving\Doorkeeper\Requestor;
 interface RuleInterface
 {
     /**
+     * @return RuleInterface|null
+     */
+    public function getPrerequisite(): ?RuleInterface;
+
+    /**
+     * @return bool
+     */
+    public function hasPrerequisite(): bool;
+    
+    /**
      * @param \RemotelyLiving\Doorkeeper\Requestor|null $requestor
      *
      * @return bool

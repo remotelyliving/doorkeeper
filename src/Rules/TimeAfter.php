@@ -29,6 +29,14 @@ class TimeAfter extends RuleAbstract
     /**
      * @inheritdoc
      */
+    public function getValue()
+    {
+        return $this->time_after->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         $requestor;

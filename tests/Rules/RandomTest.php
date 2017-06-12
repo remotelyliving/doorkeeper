@@ -3,6 +3,7 @@ namespace RemotelyLiving\Doorkeeper\Tests\Rules;
 
 use PHPUnit\Framework\TestCase;
 use RemotelyLiving\Doorkeeper\Rules\Random;
+use RemotelyLiving\Doorkeeper\Rules\TypeMapper;
 use RemotelyLiving\Doorkeeper\Utilities\Randomizer;
 
 class RandomTest extends TestCase
@@ -23,5 +24,13 @@ class RandomTest extends TestCase
           ->willReturn(10);
 
         $this->assertTrue($rule->canBeSatisfied());
+    }
+
+    /**
+     * @test
+     */
+    public function getValue()
+    {
+        $this->assertNull((new Random())->getValue());
     }
 }

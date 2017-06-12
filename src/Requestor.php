@@ -63,7 +63,7 @@ class Requestor
     public function withUserId(int $id): self
     {
         $mutee = new self($this->getIdentifications());
-        $mutee->registerIdentification(new Identification\IntegerId($id));
+        $mutee->registerIdentification(new Identification\UserId($id));
 
         return $mutee;
     }

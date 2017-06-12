@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use RemotelyLiving\Doorkeeper\Requestor;
 use RemotelyLiving\Doorkeeper\Rules\Environment;
 use RemotelyLiving\Doorkeeper\Rules\HttpHeader;
+use RemotelyLiving\Doorkeeper\Rules\TypeMapper;
 use RemotelyLiving\Doorkeeper\Rules\UserId;
 
 class EnvironmentTest extends TestCase
@@ -59,6 +60,15 @@ class EnvironmentTest extends TestCase
         $this->assertFalse($rule->canBeSatisfied());
         $this->assertFalse($rule->canBeSatisfied($requestor));
         $this->assertTrue($rule->canBeSatisfied($requestor->withEnvironment('DEV')->withUserId(321)));
+        $this->assertEquals($prereq, $rule->getPrerequisite());
+    }
+
+    /**
+     * @test
+     */
+    public function getValue()
+    {
+        $this->assertEquals('dev', (new Environment('dev'))->getValue());
     }
 
     /**

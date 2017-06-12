@@ -37,7 +37,7 @@ class ProcessorTest extends TestCase
               Processor::FEATURE_ID => 'oye',
               Processor::CONTEXT_KEY_REQUESTOR => [
                 'IpAddress' => '127.0.0.1',
-                'IntegerId' => 123,
+                'UserId' => 123,
                 'StringHash' => 'hashymcgee',
               ],
             ]

@@ -59,10 +59,9 @@ class PercentageTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function invalidPercentageNegativeNumber()
+    public function getValue()
     {
-        new Percentage(-1);
+        $this->assertEquals(4, (new Percentage(4))->getValue());
     }
 }

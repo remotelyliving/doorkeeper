@@ -8,6 +8,7 @@ use RemotelyLiving\Doorkeeper\Identification\HttpHeader;
 use RemotelyLiving\Doorkeeper\Identification\IntegerId;
 use RemotelyLiving\Doorkeeper\Identification\IpAddress;
 use RemotelyLiving\Doorkeeper\Identification\StringHash;
+use RemotelyLiving\Doorkeeper\Identification\UserId;
 use RemotelyLiving\Doorkeeper\Requestor;
 
 class RequestorTest extends TestCase
@@ -24,7 +25,7 @@ class RequestorTest extends TestCase
         $ip      = '192.168.1.1';
         $header  = 'someHeader';
 
-        $id_identification     = new IntegerId($user_id);
+        $id_identification     = new UserId($user_id);
         $hash_identification   = new StringHash($hash);
         $env_identification    = new Environment($env);
         $ip_identification     = new IpAddress($ip);
@@ -36,7 +37,7 @@ class RequestorTest extends TestCase
             ->willReturn($header);
 
         $identifications = [
-            IntegerId::class   => $id_identification,
+            UserId::class   => $id_identification,
             StringHash::class  => $hash_identification,
             Environment::class => $env_identification,
             IpAddress::class   => $ip_identification,

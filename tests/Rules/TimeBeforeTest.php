@@ -47,4 +47,12 @@ class TimeBeforeTest extends TestCase
 
         $this->assertTrue($rule->canBeSatisfied());
     }
+
+    /**
+     * @test
+     */
+    public function getValue()
+    {
+        $this->assertEquals('2011-12-12 00:00:00', (new TimeBefore('2011-12-12'))->getValue());
+    }
 }

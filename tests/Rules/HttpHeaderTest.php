@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use RemotelyLiving\Doorkeeper\Requestor;
 use RemotelyLiving\Doorkeeper\Rules\HttpHeader;
+use RemotelyLiving\Doorkeeper\Rules\TypeMapper;
 
 class HttpHeaderTest extends TestCase
 {
@@ -26,5 +27,13 @@ class HttpHeaderTest extends TestCase
         $this->assertFalse($rule->canBeSatisfied($requestor));
 
         $this->assertTrue($rule->canBeSatisfied($requestor->withRequest($request)));
+    }
+
+    /**
+     * @test
+     */
+    public function getValue()
+    {
+        $this->assertEquals('header', (new HttpHeader('header'))->getValue());
     }
 }

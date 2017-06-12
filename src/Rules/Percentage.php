@@ -32,6 +32,14 @@ class Percentage extends RuleAbstract
     /**
      * @inheritdoc
      */
+    public function getValue()
+    {
+        return $this->chances;
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         $lottery_number = $this->randomizer->generateRangedRandomInt(1, 100);

@@ -46,4 +46,12 @@ class TimeAfterTest extends TestCase
 
         $this->assertFalse($rule->canBeSatisfied());
     }
+
+    /**
+     * @test
+     */
+    public function getValue()
+    {
+        $this->assertEquals('2011-12-12 00:00:00', (new TimeAfter('2011-12-12'))->getValue());
+    }
 }

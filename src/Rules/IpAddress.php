@@ -22,6 +22,14 @@ class IpAddress extends RuleAbstract
     /**
      * @inheritdoc
      */
+    public function getValue()
+    {
+        return $this->ip_address->getIdentifier();
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         if (!$this->requestorHasIdentity($requestor, Identification\IpAddress::class)) {

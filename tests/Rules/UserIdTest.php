@@ -20,4 +20,12 @@ class UserIdTest extends TestCase
 
         $this->assertTrue($rule->canBeSatisfied($requestor->withUserId(123)));
     }
+
+    /**
+     * @test
+     */
+    public function getValue()
+    {
+        $this->assertEquals(234, (new UserId(234))->getValue());
+    }
 }

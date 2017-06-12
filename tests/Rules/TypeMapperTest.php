@@ -36,4 +36,38 @@ class TypeMapperTest extends TestCase
         $this->assertEquals(IpAddress::class, $mapper->getClassNameById(TypeMapper::RULE_TYPE_IP_ADDRESS));
         $this->assertEquals(HttpHeader::class, $mapper->getClassNameById(TypeMapper::RULE_TYPE_HEADER));
     }
+
+    /**
+     * @test
+     */
+    public function pushesCustomIdClassValues()
+    {
+        $mapper = new TypeMapper();
+
+        $mapper->pushExtraType(20002, \stdClass::class);
+
+        $this->assertEquals(20002, $mapper->getIdForClassName(\stdClass::class));
+    }
+
+    /**
+     * @test
+     * @expectedException \DomainException
+     */
+    public function doesNotAllowOverridesForIds()
+    {
+        $mapper = new TypeMapper();
+
+        $mapper->pushExtraType(1, \stdClass::class);
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function doesNotAllowForNonClassesToBePushed()
+    {
+        $mapper = new TypeMapper();
+
+        $mapper->pushExtraType(10002, 'boopClass');
+    }
 }

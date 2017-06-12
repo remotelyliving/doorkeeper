@@ -6,9 +6,9 @@ use RemotelyLiving\Doorkeeper\Requestor;
 abstract class RuleAbstract implements RuleInterface
 {
     /**
-     * @var \RemotelyLiving\Doorkeeper\Rules\RuleInterface
+     * @var \RemotelyLiving\Doorkeeper\Rules\RuleInterface|null
      */
-    private $prerequisite;
+    private $prerequisite = null;
 
     /**
      * @param \RemotelyLiving\Doorkeeper\Rules\RuleInterface $rule
@@ -32,6 +32,27 @@ abstract class RuleAbstract implements RuleInterface
         return (bool) $this->prerequisite;
     }
 
+    /**
+     * @return RuleInterface|null
+     */
+    final public function getPrerequisite(): RuleInterface
+    {
+        return $this->prerequisite;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getValue()
+    {
+        return null;
+    }
+
+    /**
+     * @param Requestor|null $requestor
+     *
+     * @return bool
+     */
     final public function canBeSatisfied(Requestor $requestor = null): bool
     {
         if ($this->hasPrerequisite() && !$this->prerequisite->canBeSatisfied($requestor)) {

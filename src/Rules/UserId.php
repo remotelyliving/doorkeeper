@@ -7,7 +7,7 @@ use RemotelyLiving\Doorkeeper\Requestor;
 class UserId extends RuleAbstract
 {
     /**
-     * @var \RemotelyLiving\Doorkeeper\Identification\IntegerId
+     * @var \RemotelyLiving\Doorkeeper\Identification\UserId
      */
     private $user_id;
 
@@ -16,7 +16,15 @@ class UserId extends RuleAbstract
      */
     public function __construct(int $user_id)
     {
-        $this->user_id = new Identification\IntegerId($user_id);
+        $this->user_id = new Identification\UserId($user_id);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getValue()
+    {
+        return $this->user_id->getIdentifier();
     }
 
     /**
@@ -24,11 +32,11 @@ class UserId extends RuleAbstract
      */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        if (!$this->requestorHasIdentity($requestor, Identification\IntegerId::class)) {
+        if (!$this->requestorHasIdentity($requestor, Identification\UserId::class)) {
             return false;
         }
 
-        return $requestor->getIdentifiationByClassName(Identification\IntegerId::class)
+        return $requestor->getIdentifiationByClassName(Identification\UserId::class)
             ->equals($this->user_id);
     }
 }

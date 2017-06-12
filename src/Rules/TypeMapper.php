@@ -19,7 +19,7 @@ class TypeMapper
     /**
      * @var string[]
      */
-    protected $type_map = [];
+    private $type_map = [];
 
     public function __construct()
     {
@@ -44,6 +44,20 @@ class TypeMapper
     public function getIdForClassName(string $class_name): int
     {
         return array_flip($this->type_map)[$class_name];
+    }
+
+    public function pushExtraType(int $id, string $class_name): void
+    {
+
+        if (isset($this->type_map[$id])) {
+            throw new \DomainException("Type {$id} already set by parent");
+        }
+
+        if (!class_exists($class_name)) {
+            throw new \InvalidArgumentException("{$class_name} is not a loaded class");
+        }
+
+        $this->type_map[$id] = $class_name;
     }
 
     protected function initTypeMap(): void

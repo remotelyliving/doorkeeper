@@ -12,4 +12,9 @@ interface RuleInterface
      * @return bool
      */
     public function canBeSatisfied(Requestor $requestor = null): bool;
+
+    /**
+     * @return mixed|null
+     */
+    public function getValue();
 }

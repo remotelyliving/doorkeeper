@@ -29,6 +29,14 @@ class TimeBefore extends RuleAbstract
     /**
      * @inheritdoc
      */
+    public function getValue()
+    {
+        return $this->time_before->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         $requestor;

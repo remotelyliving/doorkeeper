@@ -20,4 +20,12 @@ class StringHashTest extends TestCase
 
         $this->assertTrue($rule->canBeSatisfied($requestor->withStringHash('1lk2j34lk')));
     }
+
+    /**
+     * @test
+     */
+    public function getValue()
+    {
+        $this->assertEquals('#hash', (new StringHash('#hash'))->getValue());
+    }
 }

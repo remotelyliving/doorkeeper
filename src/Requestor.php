@@ -62,7 +62,7 @@ class Requestor
      */
     public function withUserId(int $id): self
     {
-        $mutee = new self($this->getIdentifications());
+        $mutee = new static($this->getIdentifications());
         $mutee->registerIdentification(new Identification\UserId($id));
 
         return $mutee;
@@ -75,7 +75,7 @@ class Requestor
      */
     public function withIpAddress(string $ip_address): self
     {
-        $mutee = new self($this->getIdentifications());
+        $mutee = new static($this->getIdentifications());
         $mutee->registerIdentification(new Identification\IpAddress($ip_address));
 
         return $mutee;
@@ -88,7 +88,7 @@ class Requestor
      */
     public function withStringHash(string $hash): self
     {
-        $mutee = new self($this->getIdentifications());
+        $mutee = new static($this->getIdentifications());
         $mutee->registerIdentification(new Identification\StringHash($hash));
 
         return $mutee;
@@ -101,7 +101,7 @@ class Requestor
      */
     public function withRequest(RequestInterface $request): self
     {
-        $mutee = new self($this->getIdentifications());
+        $mutee = new static($this->getIdentifications());
         $mutee->registerIdentification(Identification\HttpHeader::createFromRequest($request));
 
         return $mutee;
@@ -114,7 +114,7 @@ class Requestor
      */
     public function withEnvironment(string $environment): self
     {
-        $mutee = new self($this->getIdentifications());
+        $mutee = new static($this->getIdentifications());
         $mutee->registerIdentification(new Identification\Environment($environment));
 
         return $mutee;

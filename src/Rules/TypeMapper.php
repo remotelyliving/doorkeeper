@@ -6,24 +6,41 @@ namespace RemotelyLiving\Doorkeeper\Rules;
  */
 class TypeMapper
 {
-    public const RULE_TYPE_HEADER      = 1;
-    public const RULE_TYPE_IP_ADDRESS  = 2;
-    public const RULE_TYPE_PERCENTAGE  = 3;
-    public const RULE_TYPE_RANDOM      = 4;
-    public const RULE_TYPE_STRING_HASH = 5;
-    public const RULE_TYPE_USER_ID     = 6;
-    public const RULE_TYPE_ENVIRONMENT = 7;
-    public const RULE_TYPE_BEFORE      = 8;
-    public const RULE_TYPE_AFTER       = 9;
+    public const RULE_TYPE_HEADER          = 1;
+    public const RULE_TYPE_IP_ADDRESS      = 2;
+    public const RULE_TYPE_PERCENTAGE      = 3;
+    public const RULE_TYPE_RANDOM          = 4;
+    public const RULE_TYPE_STRING_HASH     = 5;
+    public const RULE_TYPE_USER_ID         = 6;
+    public const RULE_TYPE_ENVIRONMENT     = 7;
+    public const RULE_TYPE_BEFORE          = 8;
+    public const RULE_TYPE_AFTER           = 9;
+    public const RULE_TYPE_PIPED_COMPOSITE = 10;
 
     /**
      * @var string[]
      */
-    private $type_map = [];
+    private $type_map = [
+        self::RULE_TYPE_HEADER          => HttpHeader::class,
+        self::RULE_TYPE_IP_ADDRESS      => IpAddress::class,
+        self::RULE_TYPE_PERCENTAGE      => Percentage::class,
+        self::RULE_TYPE_RANDOM          => Random::class,
+        self::RULE_TYPE_STRING_HASH     => StringHash::class,
+        self::RULE_TYPE_USER_ID         => UserId::class,
+        self::RULE_TYPE_ENVIRONMENT     => Environment::class,
+        self::RULE_TYPE_BEFORE          => TimeBefore::class,
+        self::RULE_TYPE_AFTER           => TimeAfter::class,
+        self::RULE_TYPE_PIPED_COMPOSITE => PipedComposite::class,
+    ];
 
-    public function __construct()
+    /**
+     * @param array $extra_types
+     */
+    public function __construct(array $extra_types = [])
     {
-        $this->initTypeMap();
+        foreach ($extra_types as $id => $name) {
+            $this->pushExtraType($id, $name);
+        }
     }
 
     /**
@@ -58,20 +75,5 @@ class TypeMapper
         }
 
         $this->type_map[$id] = $class_name;
-    }
-
-    protected function initTypeMap(): void
-    {
-        $this->type_map = [
-            self::RULE_TYPE_HEADER      => HttpHeader::class,
-            self::RULE_TYPE_IP_ADDRESS  => IpAddress::class,
-            self::RULE_TYPE_PERCENTAGE  => Percentage::class,
-            self::RULE_TYPE_RANDOM      => Random::class,
-            self::RULE_TYPE_STRING_HASH => StringHash::class,
-            self::RULE_TYPE_USER_ID     => UserId::class,
-            self::RULE_TYPE_ENVIRONMENT => Environment::class,
-            self::RULE_TYPE_BEFORE      => TimeBefore::class,
-            self::RULE_TYPE_AFTER       => TimeAfter::class,
-        ];
     }
 }

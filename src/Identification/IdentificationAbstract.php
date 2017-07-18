@@ -52,6 +52,7 @@ abstract class IdentificationAbstract
      * @throws \InvalidArgumentException
      */
     abstract protected function validate($value): void;
+
     /**
      * @return mixed
      */

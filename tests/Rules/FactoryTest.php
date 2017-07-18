@@ -78,13 +78,4 @@ class FactoryTest extends TestCase
             'prerequisite' => ['type' => HttpHeader::class, 'value' => 'customHeader'],
         ]));
     }
-
-    /**
-     * @test
-     * @expectedException \InvalidArgumentException
-     */
-    public function invalidType()
-    {
-        (new Factory())->createFromArray(['type' => 'Bippity']);
-    }
 }

@@ -18,7 +18,11 @@ class TypeMapperTest extends TestCase
      */
     public function getsIdForClassnameAndClassnameForID()
     {
-        $mapper = new TypeMapper();
+        $extra_type = new class extends Random {
+        };
+
+        $extra_type_class = get_class($extra_type);
+        $mapper = new TypeMapper([1001 => $extra_type_class]);
 
         $this->assertEquals(TypeMapper::RULE_TYPE_ENVIRONMENT, $mapper->getIdForClassName(Environment::class));
         $this->assertEquals(TypeMapper::RULE_TYPE_USER_ID, $mapper->getIdForClassName(UserId::class));
@@ -27,6 +31,7 @@ class TypeMapperTest extends TestCase
         $this->assertEquals(TypeMapper::RULE_TYPE_PERCENTAGE, $mapper->getIdForClassName(Percentage::class));
         $this->assertEquals(TypeMapper::RULE_TYPE_IP_ADDRESS, $mapper->getIdForClassName(IpAddress::class));
         $this->assertEquals(TypeMapper::RULE_TYPE_HEADER, $mapper->getIdForClassName(HttpHeader::class));
+        $this->assertEquals(1001, $mapper->getIdForClassName($extra_type_class));
 
         $this->assertEquals(Environment::class, $mapper->getClassNameById(TypeMapper::RULE_TYPE_ENVIRONMENT));
         $this->assertEquals(UserId::class, $mapper->getClassNameById(TypeMapper::RULE_TYPE_USER_ID));
@@ -35,6 +40,7 @@ class TypeMapperTest extends TestCase
         $this->assertEquals(Percentage::class, $mapper->getClassNameById(TypeMapper::RULE_TYPE_PERCENTAGE));
         $this->assertEquals(IpAddress::class, $mapper->getClassNameById(TypeMapper::RULE_TYPE_IP_ADDRESS));
         $this->assertEquals(HttpHeader::class, $mapper->getClassNameById(TypeMapper::RULE_TYPE_HEADER));
+        $this->assertEquals($extra_type_class, $mapper->getClassNameById(1001));
     }
 
     /**

@@ -79,6 +79,7 @@ To see if a requestor is allowed access, they must present Identifications.
 - IpAddress - based on the Requestor's ip address
 - StringHash - Some flexibility here. Set it to whatever you want.
 - Environment - Based on the app environment the Requestor is in.
+- PipedComposite = A string of pipe delimited values used to make a composite key id
 
 The Requestor is immutable. It should not be changed anywhere in the call stack. 
 That would produce less than consistent results depending on where the query takes place.
@@ -113,6 +114,8 @@ There are several types of Rules to use when defining access to a feature
 
 - UserId: this rule allows for specific user access to a feature.
  *User Id only works if the Request has a user id identification registered to them
+ 
+- PipedComposite: allows for a pipe delimited composite key value 
  
 ### Prerequisistes
 

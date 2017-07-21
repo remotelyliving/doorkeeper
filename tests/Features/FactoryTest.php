@@ -16,7 +16,7 @@ class FactoryTest extends TestCase
      * @param array                                       $array
      * @param \RemotelyLiving\Doorkeeper\Features\Feature $expected
      */
-    public function createFromArray(array $array, Feature $expected): void
+    public function createFromArray(array $array, Feature $expected)
     {
         $factory = new Factory();
         $this->assertEquals($factory->createFromArray($array), $expected);

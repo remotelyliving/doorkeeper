@@ -32,7 +32,7 @@ class Requestor
     /**
      * @param \RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract $identification
      */
-    public function registerIdentification(Identification\IdentificationAbstract $identification): void
+    public function registerIdentification(Identification\IdentificationAbstract $identification)
     {
         $type = $identification->getType();
 

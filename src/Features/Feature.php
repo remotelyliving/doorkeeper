@@ -56,7 +56,7 @@ class Feature
      *
      * @throws \DomainException
      */
-    public function addRule(Rules\RuleInterface $rule): void
+    public function addRule(Rules\RuleInterface $rule)
     {
         $this->rule_set[] = $rule;
     }

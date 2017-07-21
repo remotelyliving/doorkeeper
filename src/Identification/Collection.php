@@ -46,7 +46,7 @@ class Collection implements \Countable, \IteratorAggregate
     /**
      * @param IdentificationAbstract $identification
      */
-    public function add(IdentificationAbstract $identification): void
+    public function add(IdentificationAbstract $identification)
     {
         if (get_class($identification) !== $this->class_type) {
             throw new \InvalidArgumentException("Identification must be a {$this->class_type}");
@@ -58,7 +58,7 @@ class Collection implements \Countable, \IteratorAggregate
     /**
      * @param IdentificationAbstract $identification
      */
-    public function remove(IdentificationAbstract $identification): void
+    public function remove(IdentificationAbstract $identification)
     {
         if ($this->has($identification)) {
             unset($this->identifications[$identification->getIdentifier()]);
@@ -70,7 +70,7 @@ class Collection implements \Countable, \IteratorAggregate
      *
      * @return null|IdentificationAbstract
      */
-    public function get($id): ?IdentificationAbstract
+    public function get($id)
     {
         return $this->identifications[$id] ?? null;
     }

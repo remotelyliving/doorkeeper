@@ -59,7 +59,7 @@ class RuntimeCache
      * @param string $key
      * @param mixed  $value
      */
-    public function set(string $key, $value): void
+    public function set(string $key, $value)
     {
         if ((int)$this->max_cache_items > 0 && count($this->cache) >= $this->max_cache_items) {
             array_shift($this->cache);
@@ -71,12 +71,12 @@ class RuntimeCache
     /**
      * @param string $key
      */
-    public function destroy(string $key): void
+    public function destroy(string $key)
     {
         unset($this->cache[$key]);
     }
 
-    public function flush(): void
+    public function flush()
     {
         $this->cache = [];
     }

@@ -9,7 +9,7 @@ interface RuleInterface
     /**
      * @return RuleInterface|null
      */
-    public function getPrerequisite(): ?RuleInterface;
+    public function getPrerequisite();
 
     /**
      * @return bool

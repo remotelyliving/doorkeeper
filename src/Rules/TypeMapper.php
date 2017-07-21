@@ -6,16 +6,16 @@ namespace RemotelyLiving\Doorkeeper\Rules;
  */
 class TypeMapper
 {
-    public const RULE_TYPE_HEADER          = 1;
-    public const RULE_TYPE_IP_ADDRESS      = 2;
-    public const RULE_TYPE_PERCENTAGE      = 3;
-    public const RULE_TYPE_RANDOM          = 4;
-    public const RULE_TYPE_STRING_HASH     = 5;
-    public const RULE_TYPE_USER_ID         = 6;
-    public const RULE_TYPE_ENVIRONMENT     = 7;
-    public const RULE_TYPE_BEFORE          = 8;
-    public const RULE_TYPE_AFTER           = 9;
-    public const RULE_TYPE_PIPED_COMPOSITE = 10;
+    const RULE_TYPE_HEADER          = 1;
+    const RULE_TYPE_IP_ADDRESS      = 2;
+    const RULE_TYPE_PERCENTAGE      = 3;
+    const RULE_TYPE_RANDOM          = 4;
+    const RULE_TYPE_STRING_HASH     = 5;
+    const RULE_TYPE_USER_ID         = 6;
+    const RULE_TYPE_ENVIRONMENT     = 7;
+    const RULE_TYPE_BEFORE          = 8;
+    const RULE_TYPE_AFTER           = 9;
+    const RULE_TYPE_PIPED_COMPOSITE = 10;
 
     /**
      * @var string[]
@@ -63,7 +63,7 @@ class TypeMapper
         return array_flip($this->type_map)[$class_name];
     }
 
-    public function pushExtraType(int $id, string $class_name): void
+    public function pushExtraType(int $id, string $class_name)
     {
 
         if (isset($this->type_map[$id])) {

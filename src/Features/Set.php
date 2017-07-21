@@ -21,7 +21,7 @@ class Set
     /**
      * @param \RemotelyLiving\Doorkeeper\Features\Feature $feature
      */
-    public function pushFeature(Feature $feature): void
+    public function pushFeature(Feature $feature)
     {
         $this->features[$feature->getName()] = $feature;
     }

@@ -47,7 +47,7 @@ class Doorkeeper
      *
      * @throws \DomainException
      */
-    public function setRequestor(Requestor $requestor): void
+    public function setRequestor(Requestor $requestor)
     {
         if ($this->requestor) {
             throw new \DomainException('Requestor already set');
@@ -59,7 +59,7 @@ class Doorkeeper
     /**
      * @return \RemotelyLiving\Doorkeeper\Requestor|null
      */
-    public function getRequestor(): ?Requestor
+    public function getRequestor()
     {
         return $this->requestor;
     }
@@ -120,7 +120,7 @@ class Doorkeeper
         return $this->runtime_cache->get($cache_key, $fallback);
     }
 
-    public function flushRuntimeCache(): void
+    public function flushRuntimeCache()
     {
         $this->runtime_cache->flush();
     }
@@ -129,7 +129,7 @@ class Doorkeeper
      * @param string $message
      * @param array  $context
      */
-    private function logAttempt(string $message, array $context): void
+    private function logAttempt(string $message, array $context)
     {
         if (!$this->audit_log) {
             return;

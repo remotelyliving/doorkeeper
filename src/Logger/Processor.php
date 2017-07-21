@@ -7,8 +7,8 @@ use RemotelyLiving\Doorkeeper\Requestor;
 
 class Processor
 {
-    public const CONTEXT_KEY_REQUESTOR = Requestor::class;
-    public const FEATURE_ID            = 'feature_id';
+    const CONTEXT_KEY_REQUESTOR = Requestor::class;
+    const FEATURE_ID            = 'feature_id';
 
     /**
      * @param array $record

@@ -21,7 +21,7 @@ class SetRepository
     /**
      * @param \RemotelyLiving\Doorkeeper\Features\Set $set
      */
-    public function saveFeatureSet(Set $set): void
+    public function saveFeatureSet(Set $set)
     {
         $cache_item = $this->cache->getItem(self::generateFeatureSetCacheKey());
         $cache_item->set($set);
@@ -46,7 +46,7 @@ class SetRepository
         return ($result) ?? new Set();
     }
 
-    public function deleteFeatureSet(): void
+    public function deleteFeatureSet()
     {
         $this->cache->deleteItem(self::generateFeatureSetCacheKey());
     }

@@ -14,7 +14,7 @@ abstract class RuleAbstract implements RuleInterface
     /**
      * @param \RemotelyLiving\Doorkeeper\Rules\RuleInterface $rule
      */
-    final public function setPrerequisite(RuleInterface $rule): void
+    final public function setPrerequisite(RuleInterface $rule)
     {
         if ($this->prerequisite) {
             throw new \DomainException('Prerequisite rule already set');
@@ -34,7 +34,7 @@ abstract class RuleAbstract implements RuleInterface
     /**
      * @inheritdoc
      */
-    final public function getPrerequisite(): ?RuleInterface
+    final public function getPrerequisite()
     {
         return $this->prerequisite;
     }

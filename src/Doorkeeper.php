@@ -28,16 +28,18 @@ class Doorkeeper
     private $requestor = null;
 
     /**
-     * @param \RemotelyLiving\Doorkeeper\Features\Set $feature_set
-     * @param \Psr\Log\LoggerInterface|null           $audit_log
+     * @param Features\Set $feature_set
+     * @param RuntimeCache|null $cache
+     * @param LoggerInterface|null $audit_log
      */
     public function __construct(
         Features\Set $feature_set,
+        RuntimeCache $cache = null,
         LoggerInterface $audit_log = null
     ) {
         $this->feature_set   = $feature_set;
         $this->audit_log     = $audit_log;
-        $this->runtime_cache = new RuntimeCache();
+        $this->runtime_cache = $cache ?? new RuntimeCache();
     }
 
     /**
@@ -120,7 +122,7 @@ class Doorkeeper
 
     public function flushRuntimeCache(): void
     {
-        $this->runtime_cache = new RuntimeCache();
+        $this->runtime_cache->flush();
     }
 
     /**

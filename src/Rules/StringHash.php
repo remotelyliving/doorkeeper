@@ -32,11 +32,6 @@ class StringHash extends RuleAbstract
      */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        if (!$this->requestorHasIdentity($requestor, Identification\StringHash::class)) {
-            return false;
-        }
-
-        return $requestor->getIdentifiationByClassName(Identification\StringHash::class)
-            ->equals($this->hash);
+        return $this->requestorHasMatchingId($requestor, $this->hash);
     }
 }

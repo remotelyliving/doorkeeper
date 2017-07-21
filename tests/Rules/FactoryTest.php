@@ -57,7 +57,7 @@ class FactoryTest extends TestCase
         ]));
 
         $this->assertEquals($header, $factory->createFromArray([
-            'type' => HttpHeader::class, 'value' => 'customHeader',
+            'type' => 'HttpHeader', 'value' => 'customHeader',
         ]));
 
         $this->assertEquals($env, $factory->createFromArray([

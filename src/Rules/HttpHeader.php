@@ -34,11 +34,6 @@ class HttpHeader extends RuleAbstract
      */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        if (!$this->requestorHasIdentity($requestor, Identification\HttpHeader::class)) {
-            return false;
-        }
-
-        return $requestor->getIdentifiationByClassName(Identification\HttpHeader::class)
-            ->equals($this->header);
+        return $this->requestorHasMatchingId($requestor, $this->header);
     }
 }

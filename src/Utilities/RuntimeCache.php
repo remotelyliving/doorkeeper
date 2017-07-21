@@ -10,6 +10,19 @@ class RuntimeCache
     private $cache = [];
 
     /**
+     * @var int|null
+     */
+    private $max_cache_items = null;
+
+    /**
+     * @param int|null $max_cache_items
+     */
+    public function __construct(int $max_cache_items = null)
+    {
+        $this->max_cache_items = $max_cache_items;
+    }
+
+    /**
      * @param string        $key
      * @param callable|null $fallback
      *
@@ -21,11 +34,11 @@ class RuntimeCache
             return $this->cache[$key];
         }
 
-        $result = null;
-
-        if ($fallback) {
-            $result = $fallback();
+        if (!$fallback) {
+            return null;
         }
+
+        $result = $fallback();
 
         $this->set($key, $result);
 
@@ -48,6 +61,10 @@ class RuntimeCache
      */
     public function set(string $key, $value): void
     {
+        if ((int)$this->max_cache_items > 0 && count($this->cache) >= $this->max_cache_items) {
+            array_shift($this->cache);
+        }
+
         $this->cache[$key] = $value;
     }
 
@@ -57,5 +74,10 @@ class RuntimeCache
     public function destroy(string $key): void
     {
         unset($this->cache[$key]);
+    }
+
+    public function flush(): void
+    {
+        $this->cache = [];
     }
 }

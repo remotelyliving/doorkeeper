@@ -1,6 +1,7 @@
 <?php
 namespace RemotelyLiving\Doorkeeper\Logger;
 
+use RemotelyLiving\Doorkeeper\Identification\Collection;
 use RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract;
 use RemotelyLiving\Doorkeeper\Requestor;
 
@@ -25,8 +26,11 @@ class Processor
         $requestor = $record['context'][self::CONTEXT_KEY_REQUESTOR];
         $requestor_context = [];
 
-        foreach ($requestor->getIdentifications() as $identification) {
-            $requestor_context[$this->getKeyFromIdentification($identification)] = $identification->getIdentifier();
+        /** @var Collection $identification */
+        foreach ($requestor->getIdentificationCollections() as $identification_collection) {
+            foreach ($identification_collection as $id) {
+                $requestor_context[$this->getKeyFromIdentification($id)] = $id->getIdentifier();
+            }
         }
 
         $record['context'][self::CONTEXT_KEY_REQUESTOR] = $requestor_context;

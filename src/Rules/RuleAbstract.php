@@ -1,6 +1,7 @@
 <?php
 namespace RemotelyLiving\Doorkeeper\Rules;
 
+use RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract;
 use RemotelyLiving\Doorkeeper\Requestor;
 
 abstract class RuleAbstract implements RuleInterface
@@ -66,13 +67,17 @@ abstract class RuleAbstract implements RuleInterface
     abstract protected function childCanBeSatisfied(Requestor $requestor = null): bool;
 
     /**
-     * @param \RemotelyLiving\Doorkeeper\Requestor|null $requestor
-     * @param string                                    $identity_name
+     * @param Requestor $requestor
+     * @param IdentificationAbstract $identification
      *
      * @return bool
      */
-    final protected function requestorHasIdentity(Requestor $requestor = null, string $identity_name): bool
+    protected function requestorHasMatchingId(Requestor $requestor = null, IdentificationAbstract $identification): bool
     {
-        return ($requestor && $requestor->getIdentifiationByClassName($identity_name));
+        if (!$requestor) {
+            return false;
+        }
+
+        return $requestor->hasIdentification($identification);
     }
 }

@@ -7,17 +7,17 @@ use RemotelyLiving\Doorkeeper\Identification;
 class Requestor
 {
     /**
-     * @var \RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract[]
+     * @var Identification\Collection[]
      */
-    private $identities = [];
+    private $id_collections = [];
 
     /**
-     * @param \RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract[] $identities
+     * @param \RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract[] $identifications
      */
-    public function __construct(array $identities = [])
+    public function __construct(array $identifications = [])
     {
-        foreach ($identities as $identity) {
-            $this->registerIdentification($identity);
+        foreach ($identifications as $identification) {
+            $this->registerIdentification($identification);
         }
     }
 
@@ -26,7 +26,7 @@ class Requestor
      */
     public function getIdentityHash(): string
     {
-        return md5(serialize($this->identities));
+        return md5(serialize($this->id_collections));
     }
 
     /**
@@ -34,25 +34,36 @@ class Requestor
      */
     public function registerIdentification(Identification\IdentificationAbstract $identification): void
     {
-        $this->identities[get_class($identification)] = $identification;
+        $type = $identification->getType();
+
+        if (!isset($this->id_collections[$type])) {
+            $this->id_collections[$type] = new Identification\Collection($type, [$identification]);
+            return;
+        }
+
+        $this->id_collections[$type]->add($identification);
     }
 
     /**
-     * @return \RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract[]
+     * @return Identification\Collection[]
      */
-    public function getIdentifications(): array
+    public function getIdentificationCollections(): array
     {
-        return $this->identities;
+        return $this->id_collections;
     }
 
     /**
-     * @param string $class_name
+     * @param Identification\IdentificationAbstract $identification
      *
-     * @return \RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract|null
+     * @return bool
      */
-    public function getIdentifiationByClassName(string $class_name): ?Identification\IdentificationAbstract
+    public function hasIdentification(Identification\IdentificationAbstract $identification): bool
     {
-        return $this->identities[$class_name] ?? null;
+        if (!isset($this->id_collections[$identification->getType()])) {
+            return false;
+        }
+
+        return $this->id_collections[$identification->getType()]->has($identification);
     }
 
     /**
@@ -62,7 +73,7 @@ class Requestor
      */
     public function withUserId(int $id): self
     {
-        $mutee = new static($this->getIdentifications());
+        $mutee = clone $this;
         $mutee->registerIdentification(new Identification\UserId($id));
 
         return $mutee;
@@ -75,7 +86,7 @@ class Requestor
      */
     public function withIpAddress(string $ip_address): self
     {
-        $mutee = new static($this->getIdentifications());
+        $mutee = clone $this;
         $mutee->registerIdentification(new Identification\IpAddress($ip_address));
 
         return $mutee;
@@ -88,7 +99,7 @@ class Requestor
      */
     public function withStringHash(string $hash): self
     {
-        $mutee = new static($this->getIdentifications());
+        $mutee = clone $this;
         $mutee->registerIdentification(new Identification\StringHash($hash));
 
         return $mutee;
@@ -101,7 +112,7 @@ class Requestor
      */
     public function withRequest(RequestInterface $request): self
     {
-        $mutee = new static($this->getIdentifications());
+        $mutee = clone $this;
         $mutee->registerIdentification(Identification\HttpHeader::createFromRequest($request));
 
         return $mutee;
@@ -114,7 +125,7 @@ class Requestor
      */
     public function withEnvironment(string $environment): self
     {
-        $mutee = new static($this->getIdentifications());
+        $mutee = clone $this;
         $mutee->registerIdentification(new Identification\Environment($environment));
 
         return $mutee;

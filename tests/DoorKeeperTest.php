@@ -45,7 +45,7 @@ class DoorKeeperTest extends TestCase
         $feature_5         = new Feature('no rules', true);
         $this->feature_set = new Set([$feature_1, $feature_2, $feature_3, $feature_4, $feature_5]);
         $this->logger      = $this->createMock(LoggerInterface::class);
-        $this->sut         = new Doorkeeper($this->feature_set, $this->logger);
+        $this->sut         = new Doorkeeper($this->feature_set, null, $this->logger);
     }
 
     /**
@@ -103,7 +103,7 @@ class DoorKeeperTest extends TestCase
      */
     public function flushInstanceCache()
     {
-        $doorkeeper = new Doorkeeper($this->feature_set, $this->logger);
+        $doorkeeper = new Doorkeeper($this->feature_set, null, $this->logger);
 
         $this->assertEquals($this->sut, $doorkeeper);
 

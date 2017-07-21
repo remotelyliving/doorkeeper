@@ -26,6 +26,19 @@ class EnvironmentTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function equals()
+    {
+        $dev_env = new Environment('dev');
+        $prod_env = new Environment('prod');
+        $other_dev = new Environment('dev');
+
+        $this->assertTrue($dev_env->equals($other_dev));
+        $this->assertFalse($dev_env->equals($prod_env));
+    }
+
+    /**
      * @return array
      */
     public function invalidEnvProvider(): array

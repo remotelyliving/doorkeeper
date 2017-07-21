@@ -50,8 +50,12 @@ class Factory
      */
     private function normalizeRuleType($type): string
     {
-        return (is_numeric($type))
-               ? $this->rule_type_mapper->getClassNameById($type)
-               : $type;
+        if (is_numeric($type)) {
+            return $this->rule_type_mapper->getClassNameById((int) $type);
+        }
+
+        return (class_exists($type))
+               ? $type
+               : __NAMESPACE__ . "\\{$type}";
     }
 }

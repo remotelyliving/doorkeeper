@@ -32,11 +32,6 @@ class Environment extends RuleAbstract
      */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        if (!$this->requestorHasIdentity($requestor, Identification\Environment::class)) {
-            return false;
-        }
-
-        return $requestor->getIdentifiationByClassName(Identification\Environment::class)
-            ->equals($this->environment);
+        return $this->requestorHasMatchingId($requestor, $this->environment);
     }
 }

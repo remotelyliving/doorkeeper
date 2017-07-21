@@ -32,11 +32,6 @@ class UserId extends RuleAbstract
      */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        if (!$this->requestorHasIdentity($requestor, Identification\UserId::class)) {
-            return false;
-        }
-
-        return $requestor->getIdentifiationByClassName(Identification\UserId::class)
-            ->equals($this->user_id);
+        return $this->requestorHasMatchingId($requestor, $this->user_id);
     }
 }

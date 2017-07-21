@@ -3,10 +3,12 @@ namespace RemotelyLiving\Doorkeeper\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
+use RemotelyLiving\Doorkeeper\Identification\Collection;
 use RemotelyLiving\Doorkeeper\Identification\Environment;
 use RemotelyLiving\Doorkeeper\Identification\HttpHeader;
 use RemotelyLiving\Doorkeeper\Identification\IntegerId;
 use RemotelyLiving\Doorkeeper\Identification\IpAddress;
+use RemotelyLiving\Doorkeeper\Identification\PipedComposite;
 use RemotelyLiving\Doorkeeper\Identification\StringHash;
 use RemotelyLiving\Doorkeeper\Identification\UserId;
 use RemotelyLiving\Doorkeeper\Requestor;
@@ -36,16 +38,24 @@ class RequestorTest extends TestCase
             ->with(\RemotelyLiving\Doorkeeper\Rules\HttpHeader::HEADER_KEY)
             ->willReturn($header);
 
-        $identifications = [
-            UserId::class   => $id_identification,
-            StringHash::class  => $hash_identification,
-            Environment::class => $env_identification,
-            IpAddress::class   => $ip_identification,
-            HttpHeader::class  => $header_identification,
+        $identifications_stored = [
+            UserId::class => new Collection(UserId::class, [$id_identification]),
+            StringHash::class => new Collection(StringHash::class, [$hash_identification]),
+            Environment::class => new Collection(Environment::class, [$env_identification]),
+            IpAddress::class => new Collection(IpAddress::class, [$ip_identification]),
+            HttpHeader::class => new Collection(HttpHeader::class, [$header_identification]),
+        ];
+
+        $identifications_args = [
+            $id_identification,
+            $hash_identification,
+            $env_identification,
+            $ip_identification,
+            $header_identification,
         ];
 
         $this->assertEquals(
-            new Requestor($identifications),
+            new Requestor($identifications_args),
             (new Requestor())
                 ->withStringHash($hash)
                 ->withUserId($user_id)
@@ -54,7 +64,10 @@ class RequestorTest extends TestCase
                 ->withRequest($request)
         );
 
-        $this->assertEquals((new Requestor($identifications))->getIdentifications(), $identifications);
+        $this->assertEquals(
+            (new Requestor($identifications_args))->getIdentificationCollections(),
+            $identifications_stored
+        );
     }
 
     /**
@@ -62,21 +75,24 @@ class RequestorTest extends TestCase
      */
     public function getIdentityHash()
     {
-        $identifications = [IntegerId::class => new IntegerId(434)];
-        $requestor       = new Requestor($identifications);
+        $id = new IntegerId(434);
+        $expected_hash = md5(serialize([IntegerId::class => new Collection(IntegerId::class, [$id])]));
+        $requestor = new Requestor([$id]);
 
-        $this->assertEquals(md5(serialize($identifications)), $requestor->getIdentityHash());
+        $this->assertEquals($expected_hash, $requestor->getIdentityHash());
     }
 
     /**
      * @test
      */
-    public function getIdentificationByClassName()
+    public function hasIdentification()
     {
-        $identification = new IntegerId(434);
-        $requestor      = new Requestor([$identification]);
+        $identification1 = new PipedComposite('Bliz|2');
+        $identification2 = new PipedComposite('Blaz|1');
+        $requestor       = new Requestor([$identification1, $identification2]);
 
-        $this->assertSame($identification, $requestor->getIdentifiationByClassName(IntegerId::class));
-        $this->assertNull($requestor->getIdentifiationByClassName('boop'));
+        $this->assertTrue($requestor->hasIdentification($identification1));
+        $this->assertTrue($requestor->hasIdentification($identification2));
+        $this->assertFalse($requestor->hasIdentification(new HttpHeader('thing')));
     }
 }

@@ -39,8 +39,6 @@ class TimeBefore extends RuleAbstract
      */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        $requestor;
-
         return $this->time_before > $this->time_utility->getImmutableDateTime('now');
     }
 }

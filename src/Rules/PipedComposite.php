@@ -32,11 +32,6 @@ class PipedComposite extends RuleAbstract
      */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        if (!$this->requestorHasIdentity($requestor, Identification\PipedComposite::class)) {
-            return false;
-        }
-
-        return $requestor->getIdentifiationByClassName(Identification\PipedComposite::class)
-            ->equals($this->piped_composite);
+        return $this->requestorHasMatchingId($requestor, $this->piped_composite);
     }
 }

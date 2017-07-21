@@ -14,6 +14,11 @@ abstract class IdentificationAbstract
     private $identity_hash;
 
     /**
+     * @var string
+     */
+    private $type;
+
+    /**
      * @param string $identifier
      *
      * @throws \InvalidArgumentException
@@ -27,7 +32,8 @@ abstract class IdentificationAbstract
         $this->validate($identifier);
 
         $this->identifier    = $identifier;
-        $this->identity_hash = md5(get_class($this) . (string)$identifier);
+        $this->type          = get_class($this);
+        $this->identity_hash = md5($this->getType(). (string)$identifier);
     }
 
     /**
@@ -36,6 +42,14 @@ abstract class IdentificationAbstract
     final public function getIdentifier()
     {
         return $this->identifier;
+    }
+
+    /**
+     * @return string
+     */
+    final public function getType(): string
+    {
+        return $this->type;
     }
 
     /**

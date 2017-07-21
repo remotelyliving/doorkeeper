@@ -67,4 +67,23 @@ class RuntimeCacheTest extends TestCase
         $this->assertEquals('derp', $this->sut->get('herp'));
         $this->assertNull($this->sut->get('boop'));
     }
+
+    /**
+     * @test
+     */
+    public function setsCacheLimit()
+    {
+        $cache = new RuntimeCache(2);
+
+        $cache->set('first', 1);
+
+        $this->assertEquals(1, $cache->get('first'));
+
+        $cache->set('second', 2);
+        $cache->set('third', 3);
+
+        $this->assertNull($cache->get('first'));
+        $this->assertEquals(3, $cache->get('third'));
+        $this->assertEquals(2, $cache->get('second'));
+    }
 }

@@ -39,8 +39,6 @@ class TimeAfter extends RuleAbstract
      */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        $requestor;
-
         return $this->time_after < $this->time_utility->getImmutableDateTime('now');
     }
 }

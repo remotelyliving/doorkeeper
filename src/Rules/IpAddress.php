@@ -32,11 +32,6 @@ class IpAddress extends RuleAbstract
      */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        if (!$this->requestorHasIdentity($requestor, Identification\IpAddress::class)) {
-            return false;
-        }
-
-        return $requestor->getIdentifiationByClassName(Identification\IpAddress::class)
-            ->equals($this->ip_address);
+        return $this->requestorHasMatchingId($requestor, $this->ip_address);
     }
 }

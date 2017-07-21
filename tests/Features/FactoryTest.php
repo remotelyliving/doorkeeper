@@ -28,10 +28,14 @@ class FactoryTest extends TestCase
     public function createFromArrayDataProvider(): array
     {
         return [
-          'set 1' => [
+          'feature 1' => [
             [ 'name' => 'boop', 'enabled' => true, 'rules' => [ [ 'type' => Random::class ] ] ],
             new Feature('boop', true, [ new Random() ]),
-          ]
+          ],
+          'feature 2 no rules' => [
+              [ 'name' => 'boop', 'enabled' => true ],
+              new Feature('boop', true),
+          ],
         ];
     }
 }

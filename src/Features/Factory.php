@@ -27,10 +27,12 @@ class Factory
     {
         $rules = [];
 
-        foreach ($feature['rules'] as $rule) {
-            $rules[] = $this->rule_factory->createFromArray($rule);
+        if (isset($feature['rules'])) {
+            foreach ($feature['rules'] as $rule) {
+                $rules[] = $this->rule_factory->createFromArray($rule);
+            }
         }
-
+        
         return new Feature($feature['name'], $feature['enabled'], $rules);
     }
 }

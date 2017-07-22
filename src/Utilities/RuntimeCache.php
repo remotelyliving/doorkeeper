@@ -12,7 +12,7 @@ class RuntimeCache
     /**
      * @var int|null
      */
-    private $max_cache_items = null;
+    private $max_cache_items;
 
     /**
      * @param int|null $max_cache_items

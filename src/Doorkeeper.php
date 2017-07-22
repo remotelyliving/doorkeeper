@@ -92,18 +92,19 @@ class Doorkeeper
             return false;
         }
 
-        $feature = $this->feature_set->getFeatureByName($feature_name);
+        $cache_key = md5(sprintf('%s:%s', $feature_name, ($requestor) ? $requestor->getIdentityHash() : ''));
+        $fallback = function () use ($feature_name, $requestor, $log_context): bool {
+            $feature = $this->feature_set->getFeatureByName($feature_name);
 
-        if (!$feature->isEnabled()) {
-            $this->logAttempt('Access denied because feature is disabled.', $log_context);
-            return false;
-        }
+            if (!$feature->isEnabled()) {
+                $this->logAttempt('Access denied because feature is disabled.', $log_context);
+                return false;
+            }
 
-        if ($feature->isEnabled() && !$feature->getRules()) {
-            return true;
-        }
+            if ($feature->isEnabled() && !$feature->getRules()) {
+                return true;
+            }
 
-        $fallback = function () use ($feature, $requestor, $log_context): bool {
             foreach ($feature->getRules() as $rule) {
                 if ($rule->canBeSatisfied($requestor)) {
                     $this->logAttempt('Access granted to feature', $log_context);
@@ -114,8 +115,6 @@ class Doorkeeper
             $this->logAttempt('Access denied to feature', $log_context);
             return false;
         };
-
-        $cache_key = md5(sprintf('%s:%s', $feature_name, ($requestor) ? $requestor->getIdentityHash(): ''));
 
         return $this->runtime_cache->get($cache_key, $fallback);
     }

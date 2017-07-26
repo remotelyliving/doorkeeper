@@ -11,6 +11,11 @@ class Processor
     const FEATURE_ID            = 'feature_id';
 
     /**
+     * @var string[]
+     */
+    private $filtered_identities = [];
+
+    /**
      * @param array $record
      *
      * @return array
@@ -29,6 +34,10 @@ class Processor
         /** @var Collection $identification */
         foreach ($requestor->getIdentificationCollections() as $identification_collection) {
             foreach ($identification_collection as $id) {
+                if (isset($this->filtered_identities[get_class($id)])) {
+                    continue;
+                }
+
                 $requestor_context[$this->getKeyFromIdentification($id)] = $id->getIdentifier();
             }
         }
@@ -36,6 +45,14 @@ class Processor
         $record['context'][self::CONTEXT_KEY_REQUESTOR] = $requestor_context;
 
         return $record;
+    }
+
+    /**
+     * @param array $class_names
+     */
+    public function setFilteredIdentities(array $class_names)
+    {
+        $this->filtered_identities = array_flip($class_names);
     }
 
     /**

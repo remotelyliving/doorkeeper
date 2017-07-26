@@ -1,6 +1,8 @@
 <?php
 namespace RemotelyLiving\Doorkeeper\Tests\Logger;
 
+use RemotelyLiving\Doorkeeper\Identification\IpAddress;
+use RemotelyLiving\Doorkeeper\Identification\UserId;
 use RemotelyLiving\Doorkeeper\Logger\Processor;
 use PHPUnit\Framework\TestCase;
 use RemotelyLiving\Doorkeeper\Requestor;
@@ -40,6 +42,31 @@ class ProcessorTest extends TestCase
                 'UserId' => 123,
                 'StringHash' => 'hashymcgee',
               ],
+            ]
+        ];
+
+        $this->assertEquals($expected_context, $processor($record));
+    }
+
+    /**
+     * @test
+     */
+    public function invokeWithRequestorAndFilteredFields()
+    {
+        $requestor = (new Requestor())->withIpAddress('127.0.0.1')
+            ->withUserId(123)
+            ->withStringHash('hashymcgee');
+
+        $processor = new Processor();
+        $processor->setFilteredIdentities([IpAddress::class, 'arbitrary', UserId::class]);
+        $record = [ 'context' => [ Processor::FEATURE_ID => 'oye', Processor::CONTEXT_KEY_REQUESTOR => $requestor ] ];
+
+        $expected_context = [
+            'context' => [
+                Processor::FEATURE_ID => 'oye',
+                Processor::CONTEXT_KEY_REQUESTOR => [
+                    'StringHash' => 'hashymcgee',
+                ],
             ]
         ];
 

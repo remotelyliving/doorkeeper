@@ -32,9 +32,9 @@ class EnvironmentTest extends TestCase
         $rule   = new Environment('DEV');
         $prereq = new HttpHeader('headerValue');
 
-        $rule->setPrerequisite($prereq);
+        $rule->addPrerequisite($prereq);
 
-        $this->assertTrue($rule->hasPrerequisite());
+        $this->assertTrue($rule->hasPrerequisites());
 
         $requestor = new Requestor();
 
@@ -51,16 +51,16 @@ class EnvironmentTest extends TestCase
         $rule   = new Environment('DEV');
         $prereq = new UserId(321);
 
-        $rule->setPrerequisite($prereq);
+        $rule->addPrerequisite($prereq);
 
-        $this->assertTrue($rule->hasPrerequisite());
+        $this->assertTrue($rule->hasPrerequisites());
 
         $requestor = new Requestor();
 
         $this->assertFalse($rule->canBeSatisfied());
         $this->assertFalse($rule->canBeSatisfied($requestor));
         $this->assertTrue($rule->canBeSatisfied($requestor->withEnvironment('DEV')->withUserId(321)));
-        $this->assertEquals($prereq, $rule->getPrerequisite());
+        $this->assertEquals([$prereq], $rule->getPrerequisites());
     }
 
     /**
@@ -69,18 +69,5 @@ class EnvironmentTest extends TestCase
     public function getValue()
     {
         $this->assertEquals('dev', (new Environment('dev'))->getValue());
-    }
-
-    /**
-     * @test
-     * @expectedException \DomainException
-     */
-    public function setPrerequisiteTwice()
-    {
-        $rule   = new Environment('DEV');
-        $prereq = new UserId(321);
-
-        $rule->setPrerequisite($prereq);
-        $rule->setPrerequisite($prereq);
     }
 }

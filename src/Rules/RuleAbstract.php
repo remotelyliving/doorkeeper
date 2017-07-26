@@ -7,36 +7,32 @@ use RemotelyLiving\Doorkeeper\Requestor;
 abstract class RuleAbstract implements RuleInterface
 {
     /**
-     * @var \RemotelyLiving\Doorkeeper\Rules\RuleInterface|null
+     * @var \RemotelyLiving\Doorkeeper\Rules\RuleInterface[]
      */
-    private $prerequisite = null;
+    private $prerequisites = [];
 
     /**
      * @param \RemotelyLiving\Doorkeeper\Rules\RuleInterface $rule
      */
-    final public function setPrerequisite(RuleInterface $rule)
+    final public function addPrerequisite(RuleInterface $rule)
     {
-        if ($this->prerequisite) {
-            throw new \DomainException('Prerequisite rule already set');
-        }
-
-        $this->prerequisite = $rule;
+        $this->prerequisites[] = $rule;
     }
 
     /**
      * @inheritdoc
      */
-    final public function hasPrerequisite(): bool
+    final public function hasPrerequisites(): bool
     {
-        return (bool) $this->prerequisite;
+        return (bool) $this->prerequisites;
     }
 
     /**
      * @inheritdoc
      */
-    final public function getPrerequisite()
+    final public function getPrerequisites()
     {
-        return $this->prerequisite;
+        return $this->prerequisites;
     }
 
     /**
@@ -54,8 +50,12 @@ abstract class RuleAbstract implements RuleInterface
      */
     final public function canBeSatisfied(Requestor $requestor = null): bool
     {
-        if ($this->hasPrerequisite() && !$this->prerequisite->canBeSatisfied($requestor)) {
-            return false;
+        if ($this->hasPrerequisites()) {
+            foreach ($this->prerequisites as $prerequisite) {
+                if (!$prerequisite->canBeSatisfied($requestor)) {
+                    return false;
+                }
+            }
         }
 
         return $this->childCanBeSatisfied($requestor);

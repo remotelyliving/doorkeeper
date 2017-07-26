@@ -31,15 +31,24 @@ class Factory
         /** @var \RemotelyLiving\Doorkeeper\Rules\RuleAbstract $rule */
         $rule = isset($fields['value']) ? new $rule_type($fields['value']) : new $rule_type;
 
-        if (isset($fields['prerequisite'])) {
-            $pre_req_type = $this->normalizeRuleType($fields['prerequisite']['type']);
-            $pre_req = isset($fields['prerequisite']['value'])
-                       ? new $pre_req_type($fields['prerequisite']['value'])
-                       : new $pre_req_type;
+        return isset($fields['prerequisites']) ? $this->addPrerequisites($rule, $fields['prerequisites']) : $rule;
+    }
 
-            $rule->setPrerequisite($pre_req);
+    /**
+     * @param RuleAbstract $rule
+     * @param array $prequisites
+     *
+     * @return RuleAbstract
+     */
+    private function addPrerequisites(RuleAbstract $rule, array $prequisites): RuleAbstract
+    {
+        foreach ($prequisites as $prequisite) {
+            $pre_req_type = $this->normalizeRuleType($prequisite['type']);
+            $pre_req = isset($prequisite['value']) ? new $pre_req_type($prequisite['value']) : new $pre_req_type;
+
+            $rule->addPrerequisite($pre_req);
         }
-        
+
         return $rule;
     }
 

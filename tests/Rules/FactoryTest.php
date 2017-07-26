@@ -30,7 +30,8 @@ class FactoryTest extends TestCase
         $header      = new HttpHeader('customHeader');
         $env         = new Environment('DEV');
         $env_w_prq   = new Environment('DEV');
-        $env_w_prq->setPrerequisite($header);
+        $env_w_prq->addPrerequisite($header);
+        $env_w_prq->addPrerequisite($user_id);
 
         $time_before = new TimeBefore('2013-12-12');
         $time_after  = new TimeAfter('2012-12-12');
@@ -75,7 +76,10 @@ class FactoryTest extends TestCase
         $this->assertEquals($env_w_prq, $factory->createFromArray([
             'type' => TypeMapper::RULE_TYPE_ENVIRONMENT,
             'value' => 'DEV',
-            'prerequisite' => ['type' => HttpHeader::class, 'value' => 'customHeader'],
+            'prerequisites' => [
+                ['type' => HttpHeader::class, 'value' => 'customHeader'],
+                ['type' => 'UserId', 'value' => 123],
+            ],
         ]));
     }
 }

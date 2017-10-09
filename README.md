@@ -1,9 +1,6 @@
 [![Build Status](https://travis-ci.org/remotelyliving/doorkeeper.svg?branch=master)](https://travis-ci.org/remotelyliving/doorkeeper)
-[![Coverage Status](https://coveralls.io/repos/github/remotelyliving/doorkeeper/badge.svg?branch=master)](https://coveralls.io/github/remotelyliving/doorkeeper?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/remotelyliving/doorkeeper/v/stable)](https://packagist.org/packages/remotelyliving/doorkeeper)
-[![Total Downloads](https://poser.pugx.org/remotelyliving/doorkeeper/downloads)](https://packagist.org/packages/remotelyliving/doorkeeper)
+[![Coverage Status](https://coveralls.io/repos/github/remotelyliving/doorkeeper/badge.svg?branch=master)](https://coveralls.io/github/remotelyliving/doorkeeper?branch=master) 
 [![License](https://poser.pugx.org/remotelyliving/doorkeeper/license)](https://packagist.org/packages/remotelyliving/doorkeeper)
-[![Monthly Downloads](https://poser.pugx.org/remotelyliving/doorkeeper/d/monthly)](https://packagist.org/packages/remotelyliving/doorkeeper)
 
 # Doorkeeper: a dynamic feature toggle
 
@@ -23,6 +20,10 @@ Doorkeeper was born our of a previous experience with one and wishing what it co
 Doorkeeper is storage agnostic, and has a few helpers to help translate what you decide to persist
 and how you want to load it. But however you choose to setup its Feature Set (features + rules), you can toggle your feature on and off
 by changing that configuration.
+
+### Installation
+
+`composer require remotelyliving/doorkeeper`
 
 ### Wiring it up
 

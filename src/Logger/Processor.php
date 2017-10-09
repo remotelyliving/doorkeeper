@@ -7,8 +7,9 @@ use RemotelyLiving\Doorkeeper\Requestor;
 
 class Processor
 {
-    const CONTEXT_KEY_REQUESTOR = Requestor::class;
-    const FEATURE_ID            = 'feature_id';
+    const CONTEXT_KEY_REQUESTOR   = Requestor::class;
+    const CONTEXT_KEY_IDENTIFIERS = 'identifiers';
+    const FEATURE_ID              = 'feature_id';
 
     /**
      * @var string[]
@@ -22,13 +23,13 @@ class Processor
      */
     public function __invoke(array $record)
     {
-        if (!isset($record['context'][self::CONTEXT_KEY_REQUESTOR])
-            || !$record['context'][self::CONTEXT_KEY_REQUESTOR] instanceof Requestor) {
+        if (!isset($record['context'][static::CONTEXT_KEY_REQUESTOR])
+            || !$record['context'][static::CONTEXT_KEY_REQUESTOR] instanceof Requestor) {
             return $record;
         }
 
         /** @var Requestor $requestor */
-        $requestor = $record['context'][self::CONTEXT_KEY_REQUESTOR];
+        $requestor = $record['context'][static::CONTEXT_KEY_REQUESTOR];
         $requestor_context = [];
 
         /** @var Collection $identification */
@@ -37,12 +38,13 @@ class Processor
                 if (isset($this->filtered_identities[get_class($id)])) {
                     continue;
                 }
-
-                $requestor_context[$this->getKeyFromIdentification($id)] = $id->getIdentifier();
+                $key = $this->getKeyFromIdentification($id);
+                $requestor_context[self::CONTEXT_KEY_IDENTIFIERS][$key][] = $id->getIdentifier();
             }
         }
 
-        $record['context'][self::CONTEXT_KEY_REQUESTOR] = $requestor_context;
+        $requestor_context = $this->flattenIdCollections($requestor_context);
+        $record['context'][static::CONTEXT_KEY_REQUESTOR] = $requestor_context;
 
         return $record;
     }
@@ -65,5 +67,21 @@ class Processor
         $class_paths = explode('\\', get_class($identity));
 
         return array_pop($class_paths);
+    }
+
+    private function flattenIdCollections(array $requestor_context): array
+    {
+        if (!isset($requestor_context[self::CONTEXT_KEY_IDENTIFIERS])) {
+            return $requestor_context;
+        }
+        $flattened = [];
+
+        foreach ($requestor_context[self::CONTEXT_KEY_IDENTIFIERS] as $id_name => $identifiers) {
+            $flattened[$id_name] = $identifiers;
+        }
+
+        $requestor_context[self::CONTEXT_KEY_IDENTIFIERS] = json_encode($flattened);
+
+        return $requestor_context;
     }
 }

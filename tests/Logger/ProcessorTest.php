@@ -29,18 +29,17 @@ class ProcessorTest extends TestCase
     {
         $requestor = (new Requestor())->withIpAddress('127.0.0.1')
           ->withUserId(123)
-          ->withStringHash('hashymcgee');
+          ->withStringHash('hashymcgee')
+          ->withStringHash('otherhashymgee');
 
         $processor = new Processor();
         $record = [ 'context' => [ Processor::FEATURE_ID => 'oye', Processor::CONTEXT_KEY_REQUESTOR => $requestor ] ];
-
+        $expected_ids = '{"IpAddress":["127.0.0.1"],"UserId":[123],"StringHash":["hashymcgee","otherhashymgee"]}';
         $expected_context = [
             'context' => [
               Processor::FEATURE_ID => 'oye',
               Processor::CONTEXT_KEY_REQUESTOR => [
-                'IpAddress' => '127.0.0.1',
-                'UserId' => 123,
-                'StringHash' => 'hashymcgee',
+                  'identifiers' => $expected_ids,
               ],
             ]
         ];
@@ -65,7 +64,7 @@ class ProcessorTest extends TestCase
             'context' => [
                 Processor::FEATURE_ID => 'oye',
                 Processor::CONTEXT_KEY_REQUESTOR => [
-                    'StringHash' => 'hashymcgee',
+                    'identifiers' => '{"StringHash":["hashymcgee"]}',
                 ],
             ]
         ];

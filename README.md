@@ -31,7 +31,7 @@ by changing that configuration.
 // They have several forms of identity you can initialize them
 $requestor = ( new Requestor() )
     ->withUserId($logged_in_user->id)
-    ->withRequest($psr7_request)
+    ->withRequest($psr7_request_interface)
     ->withIpAddress('127.0.0.1')
     ->withEnvironment('STAGE')
     ->withStringHash('someArbitraryThingMaybeFromTheQueryString');
@@ -40,10 +40,9 @@ $requestor = ( new Requestor() )
 $feature_set = $feature_set_repository->getSet();
 
 // Doorkeper takes in a Feature Set and an audit log if you want to log access results
-$doorkeeper  = new Doorkeeper($feature_set, $logger);
+$doorkeeper = new Doorkeeper($feature_set, $logger);
 
-
-// Set an instance bound requestor here or pass one to Doorkeeper::grantsAccessToRequestor() later
+// Set an app instance bound requestor here or pass one to Doorkeeper::grantsAccessToRequestor('feature', $requestor) later
 $doorkeeper->setRequestor($requestor);
 ```
 
@@ -55,7 +54,7 @@ if ($doorkeeper->grantsAccessTo('some.new.feature') {
 }
 
 // If you want to bypass the instance Requestor that was set and create another use Doorkeeper::grantsAccessToRequestor()
-// This is useful for jobs where you're hydrating batches of user data and processing them
+// This is useful for more stateful applications
 
 $other_requestor = (new Requestor)->withUserId($user_id);
 
@@ -123,10 +122,13 @@ Rules can be dependant on other rules for any other feature.
 
 ```php
 // create a time range
-$time_before_rule->setPrerequisite($time_after_rule);
+$time_before_rule->addPrerequisite($time_after_rule);
 
 // create a user id rule only for prod
-$user_id_rule->setPrerequisite($prod_environment_rule);
+$user_id_rule->addPrerequisite($prod_environment_rule);
+
+// add another prereq
+$user_id_rule->addPrerequisite($ip_address_rulle);
 
 // etc.
 ```
@@ -141,11 +143,14 @@ A Feature is what a Requestor is asking for by name. It can have 0-n Rules aroun
 A Feature has a top level on/off switch called `enabled` that can bypass any rules.
 
 ```php
+// $enabled (true/false), $rules (\RemotelyLiving\Doorkeeper\Rules\RuleInterface[])
 $feature = new Feature('some.new.feature', $enabled, $rules);
 ```
 
 Doorkeeper gets the rules from a feature and evaluates them. If they require a specific Identification
 Doorkeeper looks into the Requestor to see if they have the right Identifications required by a rule
+
+If nothing satisfies the feature rules the default is to deny access.
 
 ***The first rule to be satisfied grants access***
 
@@ -190,6 +195,10 @@ Doorkeeper also has a runtime cache that caches answers in memory to help as wel
 For persistent applications you'll need to call `Doorkeeper::flushRuntimeCache()`
 any time a Rule or Feature is updated.
 
+### Logging
 
+Doorkeeper comes with a friendly log processor that can pass on filtered or unfiltered info about a Requestor.
+This is incredibly helpful when debugging. 
+When paired with a Request-Id (or something like that) in the log context debugging a user's code patch can be very easy.
 
 

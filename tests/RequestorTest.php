@@ -21,18 +21,21 @@ class RequestorTest extends TestCase
      */
     public function getsAndSetIdentities()
     {
-        $user_id = 321;
-        $hash    = 'lkjelrkjelr';
-        $env     = 'STAGE';
-        $ip      = '192.168.1.1';
-        $header  = 'someHeader';
+        $user_id         = 321;
+        $int_id          = 123;
+        $hash            = 'lkjelrkjelr';
+        $env             = 'STAGE';
+        $ip              = '192.168.1.1';
+        $header          = 'someHeader';
+        $piped_composite = 'cat|in|the|hat';
 
         $id_identification     = new UserId($user_id);
         $hash_identification   = new StringHash($hash);
         $env_identification    = new Environment($env);
         $ip_identification     = new IpAddress($ip);
         $header_identification = new HttpHeader($header);
-
+        $pc_identification     = new PipedComposite($piped_composite);
+        $int_identification    = new IntegerId($int_id);
         $request = $this->createMock(RequestInterface::class);
         $request->method('getHeaderLine')
             ->with(\RemotelyLiving\Doorkeeper\Rules\HttpHeader::HEADER_KEY)
@@ -44,6 +47,8 @@ class RequestorTest extends TestCase
             Environment::class => new Collection(Environment::class, [$env_identification]),
             IpAddress::class => new Collection(IpAddress::class, [$ip_identification]),
             HttpHeader::class => new Collection(HttpHeader::class, [$header_identification]),
+            PipedComposite::class => new Collection(PipedComposite::class, [$pc_identification]),
+            IntegerId::class => new Collection(IntegerId::class, [$int_identification])
         ];
 
         $identifications_args = [
@@ -52,6 +57,8 @@ class RequestorTest extends TestCase
             $env_identification,
             $ip_identification,
             $header_identification,
+            $pc_identification,
+            $int_identification
         ];
 
         $this->assertEquals(
@@ -62,6 +69,10 @@ class RequestorTest extends TestCase
                 ->withEnvironment($env)
                 ->withIpAddress($ip)
                 ->withRequest($request)
+                ->withPipedComposite($piped_composite)
+                ->withPipedComposite($piped_composite) // duplicate protection
+                ->withIntegerId($int_id)
+
         );
 
         $this->assertEquals(

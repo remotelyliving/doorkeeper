@@ -69,7 +69,7 @@ class Requestor
     /**
      * @param int $id
      *
-     * @return \RemotelyLiving\Doorkeeper\Requestor
+     * @return self
      */
     public function withUserId(int $id): self
     {
@@ -82,7 +82,7 @@ class Requestor
     /**
      * @param string $ip_address
      *
-     * @return \RemotelyLiving\Doorkeeper\Requestor
+     * @return self
      */
     public function withIpAddress(string $ip_address): self
     {
@@ -95,7 +95,7 @@ class Requestor
     /**
      * @param string $hash
      *
-     * @return \RemotelyLiving\Doorkeeper\Requestor
+     * @return self
      */
     public function withStringHash(string $hash): self
     {
@@ -108,7 +108,7 @@ class Requestor
     /**
      * @param \Psr\Http\Message\RequestInterface $request
      *
-     * @return \RemotelyLiving\Doorkeeper\Requestor
+     * @return self
      */
     public function withRequest(RequestInterface $request): self
     {
@@ -121,12 +121,38 @@ class Requestor
     /**
      * @param string $environment
      *
-     * @return \RemotelyLiving\Doorkeeper\Requestor
+     * @return self
      */
     public function withEnvironment(string $environment): self
     {
         $mutee = clone $this;
         $mutee->registerIdentification(new Identification\Environment($environment));
+
+        return $mutee;
+    }
+
+    /**
+     * @param string $piped_composite
+     *
+     * @return self
+     */
+    public function withPipedComposite(string $piped_composite): self
+    {
+        $mutee = clone $this;
+        $mutee->registerIdentification(new Identification\PipedComposite($piped_composite));
+
+        return $mutee;
+    }
+
+    /**
+     * @param int $integer_id
+     *
+     * @return self
+     */
+    public function withIntegerId(int $integer_id): self
+    {
+        $mutee = clone $this;
+        $mutee->registerIdentification(new Identification\IntegerId($integer_id));
 
         return $mutee;
     }

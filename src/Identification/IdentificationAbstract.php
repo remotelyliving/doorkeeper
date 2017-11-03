@@ -68,7 +68,7 @@ abstract class IdentificationAbstract
     abstract protected function validate($value);
 
     /**
-     * @return mixed
+     * @return string
      */
     private function getUniqueIdentityHash(): string
     {

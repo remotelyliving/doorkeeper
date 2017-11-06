@@ -72,7 +72,6 @@ class RequestorTest extends TestCase
                 ->withPipedComposite($piped_composite)
                 ->withPipedComposite($piped_composite) // duplicate protection
                 ->withIntegerId($int_id)
-
         );
 
         $this->assertEquals(

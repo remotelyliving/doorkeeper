@@ -18,6 +18,16 @@ use RemotelyLiving\Doorkeeper\Rules\UserId;
 class FactoryTest extends TestCase
 {
     /**
+     * @var Factory
+     */
+    private $factory;
+
+    protected function setUp()
+    {
+        $this->factory = new Factory();
+    }
+
+    /**
      * @test
      */
     public function createFromArray()
@@ -81,5 +91,16 @@ class FactoryTest extends TestCase
                 ['type' => 'UserId', 'value' => 123],
             ],
         ]));
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage boop is not a valid rule type
+     */
+    public function throwsOnInvalidRuleType()
+    {
+        $this->factory->createFromArray(['type' => 'boop', 'value' => 123]);
     }
 }

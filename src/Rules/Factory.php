@@ -63,8 +63,14 @@ class Factory
             return $this->rule_type_mapper->getClassNameById((int) $type);
         }
 
-        return (class_exists($type))
-               ? $type
-               : __NAMESPACE__ . "\\{$type}";
+        if (class_exists($type)) {
+            return $type;
+        }
+
+        if (class_exists(__NAMESPACE__ . "\\{$type}")) {
+            return __NAMESPACE__ . "\\{$type}";
+        }
+
+        throw new \InvalidArgumentException("{$type} is not a valid rule type");
     }
 }

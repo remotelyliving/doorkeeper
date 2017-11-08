@@ -22,7 +22,7 @@ class FeatureTest extends TestCase
     /**
      * @test
      */
-    public function getId()
+    public function getsId()
     {
         $feature = new Feature('someId', false);
 
@@ -32,7 +32,7 @@ class FeatureTest extends TestCase
     /**
      * @test
      */
-    public function getRules()
+    public function getsRules()
     {
         $feature = new Feature('someId', true);
         $rule = new Random();
@@ -44,5 +44,14 @@ class FeatureTest extends TestCase
         $rules = $feature->getRules();
 
         $this->assertSame($rule, array_shift($rules));
+    }
+
+    /**
+     * @test
+     */
+    public function jsonSerializes()
+    {
+        $feature = new Feature('someId', true);
+        $this->assertEquals('{"name":"someId","enabled":true,"rules":[]}', json_encode($feature));
     }
 }

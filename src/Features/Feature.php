@@ -3,7 +3,7 @@ namespace RemotelyLiving\Doorkeeper\Features;
 
 use RemotelyLiving\Doorkeeper\Rules;
 
-class Feature
+class Feature implements \JsonSerializable
 {
     /**
      * @var string
@@ -67,5 +67,17 @@ class Feature
     public function getRules(): array
     {
         return $this->rule_set;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'name' => $this->name,
+            'enabled' => $this->enabled,
+            'rules' => $this->rule_set,
+        ];
     }
 }

@@ -62,6 +62,18 @@ abstract class RuleAbstract implements RuleInterface
     }
 
     /**
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'type' => static::class,
+            'value' => $this->getValue(),
+            'prerequisites' => $this->prerequisites,
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     abstract protected function childCanBeSatisfied(Requestor $requestor = null): bool;

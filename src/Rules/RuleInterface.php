@@ -4,7 +4,7 @@ namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Requestor;
 
-interface RuleInterface
+interface RuleInterface extends \JsonSerializable
 {
     /**
      * @return RuleInterface[]

@@ -1,7 +1,7 @@
 <?php
 namespace RemotelyLiving\Doorkeeper\Features;
 
-class Set
+class Set implements \JsonSerializable
 {
     /**
      * @var \RemotelyLiving\Doorkeeper\Features\Feature[]
@@ -56,5 +56,13 @@ class Set
         }
 
         return $this->features[$feature_name];
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return ['features' => $this->features];
     }
 }

@@ -63,12 +63,11 @@ class Factory
             return $this->rule_type_mapper->getClassNameById((int) $type);
         }
 
-        if (class_exists($type)) {
-            return $type;
-        }
+        $fqcnSegments = explode('\\', $type);
+        $className = array_pop($fqcnSegments);
 
-        if (class_exists(__NAMESPACE__ . "\\{$type}")) {
-            return __NAMESPACE__ . "\\{$type}";
+        if (class_exists(__NAMESPACE__ . "\\{$className}")) {
+            return __NAMESPACE__ . "\\{$className}";
         }
 
         throw new \InvalidArgumentException("{$type} is not a valid rule type");

@@ -96,11 +96,21 @@ class FactoryTest extends TestCase
     /**
      * @test
      *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage boop is not a valid rule type
+     * @dataProvider invalidRuleTypeProvider
      */
-    public function throwsOnInvalidRuleType()
+    public function throwsOnInvalidRuleType($invalidType)
     {
-        $this->factory->createFromArray(['type' => 'boop', 'value' => 123]);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("{$invalidType} is not a valid rule type");
+        $this->factory->createFromArray(['type' => $invalidType, 'value' => 123]);
+    }
+
+    public function invalidRuleTypeProvider(): array
+    {
+        return [
+            'existing non lib class' => [\stdClass::class],
+            'prefixed existing non lib class' => ['\\stdClass'],
+            'non existent class' => ['boop'],
+        ];
     }
 }

@@ -117,7 +117,9 @@ There are several types of Rules to use when defining access to a feature
  *User Id only works if the Request has a user id identification registered to them
  
 - PipedComposite: allows for a pipe delimited composite key value 
- 
+
+- RuntimeCallable: pass in a callable that returns true/false. You'll have access to the requestor as a parameter, but be forewarned that storing this one is not possible (i.e. to a database) 
+
 ### Prerequisistes
 
 Rules can be dependant on other rules for any other feature.

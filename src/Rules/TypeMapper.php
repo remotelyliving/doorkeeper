@@ -63,6 +63,10 @@ class TypeMapper
         return array_flip($this->type_map)[$class_name];
     }
 
+    /**
+     * @param int $id
+     * @param string $class_name
+     */
     public function pushExtraType(int $id, string $class_name)
     {
 

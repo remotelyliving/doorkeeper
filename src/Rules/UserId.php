@@ -12,9 +12,9 @@ class UserId extends RuleAbstract
     private $user_id;
 
     /**
-     * @param int $user_id
+     * @param string|int $user_id
      */
-    public function __construct(int $user_id)
+    public function __construct($user_id)
     {
         $this->user_id = new Identification\UserId($user_id);
     }

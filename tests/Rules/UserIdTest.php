@@ -9,16 +9,18 @@ class UserIdTest extends TestCase
 {
     /**
      * @test
+     * @dataProvider idProvider
      */
-    public function canBeSatisfied()
+    public function canBeSatisfied($id)
     {
-        $rule      = new UserId(123);
+        $rule      = new UserId($id);
+
         $requestor = new Requestor();
 
         $this->assertFalse($rule->canBeSatisfied());
         $this->assertFalse($rule->canBeSatisfied($requestor));
 
-        $this->assertTrue($rule->canBeSatisfied($requestor->withUserId(123)));
+        $this->assertTrue($rule->canBeSatisfied($requestor->withUserId($id)));
     }
 
     /**
@@ -27,5 +29,16 @@ class UserIdTest extends TestCase
     public function getValue()
     {
         $this->assertEquals(234, (new UserId(234))->getValue());
+    }
+
+    /**
+     * @return array
+     */
+    public function idProvider(): array
+    {
+        return [
+            'uuid' => ['4dd8ab53-162c-4681-930a-62879d9e4b5f'],
+            'integer id' => [234]
+        ];
     }
 }

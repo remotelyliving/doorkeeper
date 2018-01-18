@@ -67,11 +67,11 @@ class Requestor
     }
 
     /**
-     * @param int $id
+     * @param int|string $id
      *
      * @return self
      */
-    public function withUserId(int $id): self
+    public function withUserId($id): self
     {
         $mutee = clone $this;
         $mutee->registerIdentification(new Identification\UserId($id));

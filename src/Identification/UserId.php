@@ -1,6 +1,8 @@
 <?php
 namespace RemotelyLiving\Doorkeeper\Identification;
 
+use Ramsey\Uuid\Uuid;
+
 class UserId extends IdentificationAbstract
 {
     public function validate($value)
@@ -9,8 +11,7 @@ class UserId extends IdentificationAbstract
             return;
         }
 
-        $uuidPattern = '/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/';
-        if (preg_match($uuidPattern, $value)) {
+        if (Uuid::isValid($value)) {
             return;
         }
 

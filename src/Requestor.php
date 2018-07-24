@@ -11,9 +11,6 @@ class Requestor
      */
     private $id_collections = [];
 
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract[] $identifications
-     */
     public function __construct(array $identifications = [])
     {
         foreach ($identifications as $identification) {
@@ -21,17 +18,11 @@ class Requestor
         }
     }
 
-    /**
-     * @return string
-     */
     public function getIdentityHash(): string
     {
         return md5(serialize($this->id_collections));
     }
 
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract $identification
-     */
     public function registerIdentification(Identification\IdentificationAbstract $identification)
     {
         $type = $identification->getType();
@@ -44,19 +35,11 @@ class Requestor
         $this->id_collections[$type]->add($identification);
     }
 
-    /**
-     * @return Identification\Collection[]
-     */
     public function getIdentificationCollections(): array
     {
         return $this->id_collections;
     }
 
-    /**
-     * @param Identification\IdentificationAbstract $identification
-     *
-     * @return bool
-     */
     public function hasIdentification(Identification\IdentificationAbstract $identification): bool
     {
         if (!isset($this->id_collections[$identification->getType()])) {
@@ -79,11 +62,6 @@ class Requestor
         return $mutee;
     }
 
-    /**
-     * @param string $ip_address
-     *
-     * @return self
-     */
     public function withIpAddress(string $ip_address): self
     {
         $mutee = clone $this;
@@ -92,11 +70,6 @@ class Requestor
         return $mutee;
     }
 
-    /**
-     * @param string $hash
-     *
-     * @return self
-     */
     public function withStringHash(string $hash): self
     {
         $mutee = clone $this;
@@ -105,11 +78,6 @@ class Requestor
         return $mutee;
     }
 
-    /**
-     * @param \Psr\Http\Message\RequestInterface $request
-     *
-     * @return self
-     */
     public function withRequest(RequestInterface $request): self
     {
         $mutee = clone $this;
@@ -118,11 +86,6 @@ class Requestor
         return $mutee;
     }
 
-    /**
-     * @param string $environment
-     *
-     * @return self
-     */
     public function withEnvironment(string $environment): self
     {
         $mutee = clone $this;
@@ -131,11 +94,6 @@ class Requestor
         return $mutee;
     }
 
-    /**
-     * @param string $piped_composite
-     *
-     * @return self
-     */
     public function withPipedComposite(string $piped_composite): self
     {
         $mutee = clone $this;
@@ -144,11 +102,6 @@ class Requestor
         return $mutee;
     }
 
-    /**
-     * @param int $integer_id
-     *
-     * @return self
-     */
     public function withIntegerId(int $integer_id): self
     {
         $mutee = clone $this;

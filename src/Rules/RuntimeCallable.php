@@ -10,17 +10,11 @@ class RuntimeCallable extends RuleAbstract
      */
     private $runtimeCallable;
 
-    /**
-     * @param callable $runtimeCallable
-     */
     public function __construct(callable $runtimeCallable)
     {
         $this->runtimeCallable = $runtimeCallable;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         $localFn = $this->runtimeCallable;

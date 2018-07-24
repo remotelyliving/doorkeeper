@@ -11,9 +11,6 @@ class Random extends RuleAbstract
      */
     private $randomizer;
 
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Utilities\Randomizer|null $randomizer
-     */
     public function __construct(Randomizer $randomizer = null)
     {
         $this->randomizer = $randomizer ?? new Randomizer();

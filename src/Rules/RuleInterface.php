@@ -18,11 +18,6 @@ interface RuleInterface extends \JsonSerializable
 
     public function addPrerequisite(RuleInterface $rule);
 
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Requestor|null $requestor
-     *
-     * @return bool
-     */
     public function canBeSatisfied(Requestor $requestor = null): bool;
 
     /**

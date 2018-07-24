@@ -16,9 +16,6 @@ class Percentage extends RuleAbstract
      */
     private $randomizer;
 
-    /**
-     * @param int $percentage
-     */
     public function __construct(int $percentage, Randomizer $randomizer = null)
     {
         if ($percentage < 0 || $percentage > 100) {
@@ -29,17 +26,11 @@ class Percentage extends RuleAbstract
         $this->randomizer = $randomizer ?? new Randomizer();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValue()
     {
         return $this->chances;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         $lottery_number = $this->randomizer->generateRangedRandomInt(1, 100);

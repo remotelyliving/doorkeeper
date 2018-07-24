@@ -17,9 +17,6 @@ class TypeMapper
     const RULE_TYPE_AFTER           = 9;
     const RULE_TYPE_PIPED_COMPOSITE = 10;
 
-    /**
-     * @var string[]
-     */
     private $type_map = [
         self::RULE_TYPE_HEADER          => HttpHeader::class,
         self::RULE_TYPE_IP_ADDRESS      => IpAddress::class,
@@ -33,9 +30,6 @@ class TypeMapper
         self::RULE_TYPE_PIPED_COMPOSITE => PipedComposite::class,
     ];
 
-    /**
-     * @param array $extra_types
-     */
     public function __construct(array $extra_types = [])
     {
         foreach ($extra_types as $id => $name) {
@@ -43,30 +37,16 @@ class TypeMapper
         }
     }
 
-    /**
-     * @param int $integer_id
-     *
-     * @return string
-     */
     public function getClassNameById(int $integer_id): string
     {
         return $this->type_map[$integer_id];
     }
 
-    /**
-     * @param string $class_name
-     *
-     * @return int
-     */
     public function getIdForClassName(string $class_name): int
     {
         return array_flip($this->type_map)[$class_name];
     }
 
-    /**
-     * @param int $id
-     * @param string $class_name
-     */
     public function pushExtraType(int $id, string $class_name)
     {
 

@@ -14,10 +14,6 @@ class Collection implements \Countable, \IteratorAggregate
      */
     private $identifications = [];
 
-    /**
-     * @param string $class_type
-     * @param array $identifications
-     */
     public function __construct(string $class_type, array $identifications = [])
     {
         $this->class_type = $class_type;
@@ -27,25 +23,16 @@ class Collection implements \Countable, \IteratorAggregate
         }
     }
 
-    /**
-     * @return \ArrayIterator
-     */
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->identifications);
     }
 
-    /**
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         return count($this->identifications);
     }
 
-    /**
-     * @param IdentificationAbstract $identification
-     */
     public function add(IdentificationAbstract $identification)
     {
         if (get_class($identification) !== $this->class_type) {
@@ -55,9 +42,6 @@ class Collection implements \Countable, \IteratorAggregate
         $this->identifications[$identification->getIdentifier()] = $identification;
     }
 
-    /**
-     * @param IdentificationAbstract $identification
-     */
     public function remove(IdentificationAbstract $identification)
     {
         if ($this->has($identification)) {
@@ -66,20 +50,13 @@ class Collection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param $id
-     *
      * @return null|IdentificationAbstract
      */
-    public function get($id)
+    public function get(string $id)
     {
         return $this->identifications[$id] ?? null;
     }
 
-    /**
-     * @param IdentificationAbstract $identification
-     *
-     * @return bool
-     */
     public function has(IdentificationAbstract $identification): bool
     {
         return isset($this->identifications[$identification->getIdentifier()]);

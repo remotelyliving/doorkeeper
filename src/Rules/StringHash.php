@@ -11,9 +11,6 @@ class StringHash extends RuleAbstract
      */
     private $hash;
 
-    /**
-     * @param string $hash
-     */
     public function __construct(string $hash)
     {
         $this->hash = new Identification\StringHash($hash);

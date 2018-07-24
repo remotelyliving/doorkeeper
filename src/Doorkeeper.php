@@ -13,7 +13,7 @@ class Doorkeeper
     private $feature_set;
 
     /**
-     * @var null|\RemotelyLiving\Doorkeeper\Utilities\RuntimeCache
+     * @var \RemotelyLiving\Doorkeeper\Utilities\RuntimeCache
      */
     private $runtime_cache;
 
@@ -27,11 +27,6 @@ class Doorkeeper
      */
     private $requestor = null;
 
-    /**
-     * @param Features\Set $feature_set
-     * @param RuntimeCache|null $cache
-     * @param LoggerInterface|null $audit_log
-     */
     public function __construct(
         Features\Set $feature_set,
         RuntimeCache $cache = null,
@@ -43,8 +38,6 @@ class Doorkeeper
     }
 
     /**
-     * @param \RemotelyLiving\Doorkeeper\Requestor $requestor
-     *
      * @throws \DomainException
      */
     public function setRequestor(Requestor $requestor)
@@ -64,22 +57,11 @@ class Doorkeeper
         return $this->requestor;
     }
 
-    /**
-     * @param string $feature_name
-     *
-     * @return bool
-     */
     public function grantsAccessTo(string $feature_name): bool
     {
         return $this->grantsAccessToRequestor($feature_name, $this->requestor);
     }
 
-    /**
-     * @param string                                    $feature_name
-     * @param \RemotelyLiving\Doorkeeper\Requestor|null $requestor
-     *
-     * @return bool
-     */
     public function grantsAccessToRequestor(string $feature_name, Requestor $requestor = null): bool
     {
         $log_context = [
@@ -124,10 +106,6 @@ class Doorkeeper
         $this->runtime_cache->flush();
     }
 
-    /**
-     * @param string $message
-     * @param array  $context
-     */
     private function logAttempt(string $message, array $context)
     {
         if (!$this->audit_log) {

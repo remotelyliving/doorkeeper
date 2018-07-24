@@ -13,25 +13,16 @@ class HttpHeader extends RuleAbstract
      */
     private $header;
 
-    /**
-     * @param string $header_value
-     */
     public function __construct(string $header_value)
     {
         $this->header = new Identification\HttpHeader($header_value);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValue()
     {
         return $this->header->getIdentifier();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         return $this->requestorHasMatchingId($requestor, $this->header);

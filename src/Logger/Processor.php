@@ -16,12 +16,7 @@ class Processor
      */
     private $filtered_identities = [];
 
-    /**
-     * @param array $record
-     *
-     * @return array
-     */
-    public function __invoke(array $record)
+    public function __invoke(array $record): array
     {
         if (!isset($record['context'][static::CONTEXT_KEY_REQUESTOR])
             || !$record['context'][static::CONTEXT_KEY_REQUESTOR] instanceof Requestor) {
@@ -57,16 +52,11 @@ class Processor
         $this->filtered_identities = array_flip($class_names);
     }
 
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract $identity
-     *
-     * @return string
-     */
     private function getKeyFromIdentification(IdentificationAbstract $identity): string
     {
         $class_paths = explode('\\', get_class($identity));
 
-        return array_pop($class_paths);
+        return (string)array_pop($class_paths);
     }
 
     private function flattenIdCollections(array $requestor_context): array

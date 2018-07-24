@@ -8,7 +8,7 @@ dependency-check:
 	@vendor/bin/composer-require-checker check ./composer.json
 
 unit-tests:
-	@vendor/bin/phpunit --bootstrap=./tests/bootstrap.php ./tests/Unit
+	@vendor/bin/phpunit --bootstrap=./tests/bootstrap.php ./tests
 
 style-check:
 	@vendor/bin/phpcs --standard=PSR2 ./src/* ./tests/*

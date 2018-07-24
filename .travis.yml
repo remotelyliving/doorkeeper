@@ -5,7 +5,7 @@ language: php
 
 php:
   - '7.1'
-  - '7.0'
+  - '7.2'
 
 install:
   - composer install
@@ -14,8 +14,7 @@ before_script:
   - mkdir -p build/logs
 
 script:
-  - ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php  tests/ --coverage-clover build/logs/clover.xml
-  - ./vendor/bin/phpcs --standard=PSR2 --ignore=tests/bootstrap.php src/ tests/
+  - make
 
 after_success:
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'

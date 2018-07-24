@@ -19,35 +19,21 @@ abstract class RuleAbstract implements RuleInterface
         $this->prerequisites[] = $rule;
     }
 
-    /**
-     * @inheritdoc
-     */
     final public function hasPrerequisites(): bool
     {
         return (bool) $this->prerequisites;
     }
 
-    /**
-     * @inheritdoc
-     */
     final public function getPrerequisites()
     {
         return $this->prerequisites;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValue()
     {
         return null;
     }
 
-    /**
-     * @param Requestor|null $requestor
-     *
-     * @return bool
-     */
     final public function canBeSatisfied(Requestor $requestor = null): bool
     {
         if ($this->hasPrerequisites()) {
@@ -61,9 +47,6 @@ abstract class RuleAbstract implements RuleInterface
         return $this->childCanBeSatisfied($requestor);
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize(): array
     {
         return [
@@ -73,17 +56,8 @@ abstract class RuleAbstract implements RuleInterface
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     abstract protected function childCanBeSatisfied(Requestor $requestor = null): bool;
 
-    /**
-     * @param Requestor $requestor
-     * @param IdentificationAbstract $identification
-     *
-     * @return bool
-     */
     protected function requestorHasMatchingId(Requestor $requestor = null, IdentificationAbstract $identification): bool
     {
         if (!$requestor) {

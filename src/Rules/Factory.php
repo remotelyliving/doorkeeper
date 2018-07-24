@@ -9,21 +9,11 @@ class Factory
      */
     private $rule_type_mapper;
 
-    /**
-     * Factory constructor.
-     *
-     * @param TypeMapper|null $type_mapper
-     */
     public function __construct(TypeMapper $type_mapper = null)
     {
         $this->rule_type_mapper = $type_mapper ?? new TypeMapper();
     }
 
-    /**
-     * @param array $fields
-     *
-     * @return \RemotelyLiving\Doorkeeper\Rules\RuleAbstract
-     */
     public function createFromArray(array $fields): RuleAbstract
     {
         $rule_type = $this->normalizeRuleType($fields['type']);
@@ -34,12 +24,6 @@ class Factory
         return isset($fields['prerequisites']) ? $this->addPrerequisites($rule, $fields['prerequisites']) : $rule;
     }
 
-    /**
-     * @param RuleAbstract $rule
-     * @param array $prequisites
-     *
-     * @return RuleAbstract
-     */
     private function addPrerequisites(RuleAbstract $rule, array $prequisites): RuleAbstract
     {
         foreach ($prequisites as $prequisite) {
@@ -52,11 +36,6 @@ class Factory
         return $rule;
     }
 
-    /**
-     * @param string|int $type
-     *
-     * @return string
-     */
     private function normalizeRuleType($type): string
     {
         if (is_numeric($type)) {

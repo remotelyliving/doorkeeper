@@ -3,9 +3,6 @@ namespace RemotelyLiving\Doorkeeper\Identification;
 
 class IntegerId extends IdentificationAbstract
 {
-    /**
-     * @inheritdoc
-     */
     public function validate($id)
     {
         if (!is_int($id) || $id < 0) {

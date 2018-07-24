@@ -11,25 +11,16 @@ class Environment extends RuleAbstract
      */
     private $environment;
 
-    /**
-     * @param string $environment
-     */
     public function __construct(string $environment)
     {
         $this->environment = new Identification\Environment($environment);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValue()
     {
         return $this->environment->getIdentifier();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         return $this->requestorHasMatchingId($requestor, $this->environment);

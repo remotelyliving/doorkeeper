@@ -16,14 +16,15 @@
     "psr/log": "^1.0",
     "psr/http-message": "^1.0",
     "ext-json": "*",
-    "ext-filter": "*"
+    "ext-filter": "*",
+    "ramsey/uuid": "^3.8"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.1",
-    "squizlabs/php_codesniffer": "^3.0",
-    "php-coveralls/php-coveralls": "^1.0",
-    "phpstan/phpstan": "^0.10.2",
-    "maglnet/composer-require-checker": "^1.0"
+    "phpunit/phpunit": "~6.0",
+    "squizlabs/php_codesniffer": "~3.0",
+    "php-coveralls/php-coveralls": "~1.0",
+    "phpstan/phpstan": "~0.10.2",
+    "maglnet/composer-require-checker": "~1.0"
   },
   "autoload": {
     "psr-4": {

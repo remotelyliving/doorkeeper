@@ -3,9 +3,6 @@ namespace RemotelyLiving\Doorkeeper\Identification;
 
 class IpAddress extends IdentificationAbstract
 {
-    /**
-     * @inheritdoc
-     */
     public function validate($ip_address)
     {
         if (!filter_var($ip_address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)

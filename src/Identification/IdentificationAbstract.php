@@ -4,7 +4,7 @@ namespace RemotelyLiving\Doorkeeper\Identification;
 abstract class IdentificationAbstract
 {
     /**
-     * @var int|string
+     * @var int|float|string
      */
     private $identifier;
 
@@ -19,8 +19,6 @@ abstract class IdentificationAbstract
     private $type;
 
     /**
-     * @param string $identifier
-     *
      * @throws \InvalidArgumentException
      */
     public function __construct($identifier)
@@ -52,11 +50,6 @@ abstract class IdentificationAbstract
         return $this->type;
     }
 
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Identification\IdentificationAbstract $identity
-     *
-     * @return bool
-     */
     final public function equals(IdentificationAbstract $identity): bool
     {
         return $this->getUniqueIdentityHash() === $identity->getUniqueIdentityHash();

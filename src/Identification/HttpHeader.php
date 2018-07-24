@@ -5,9 +5,6 @@ use Psr\Http\Message\RequestInterface;
 
 class HttpHeader extends IdentificationAbstract
 {
-    /**
-     * @inheritdoc
-     */
     public function validate($string)
     {
         return;

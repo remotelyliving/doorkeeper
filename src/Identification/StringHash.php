@@ -3,9 +3,6 @@ namespace RemotelyLiving\Doorkeeper\Identification;
 
 class StringHash extends IdentificationAbstract
 {
-    /**
-     * @inheritdoc
-     */
     public function validate($string)
     {
         if (!is_string($string)) {

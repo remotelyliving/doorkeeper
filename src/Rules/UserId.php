@@ -19,17 +19,11 @@ class UserId extends RuleAbstract
         $this->user_id = new Identification\UserId($user_id);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValue()
     {
         return $this->user_id->getIdentifier();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         return $this->requestorHasMatchingId($requestor, $this->user_id);

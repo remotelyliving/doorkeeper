@@ -7,8 +7,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          forceCoversAnnotation="false"
-         mapTestClassNameToCoveredClassName="false"
-         processIsolation="false"
+         processIsolation="true"
          stopOnError="false"
          stopOnFailure="false"
          stopOnIncomplete="false"
@@ -16,7 +15,7 @@
          verbose="true">
 
     <testsuites>
-        <testsuite>
+        <testsuite name="Unit">
             <directory suffix=".php">./tests</directory>
         </testsuite>
     </testsuites>
@@ -26,10 +25,6 @@
     </php>
 
     <filter>
-        <blacklist>
-            <directory>./vendor/</directory>
-            <directory>./tests/</directory>
-        </blacklist>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
         </whitelist>

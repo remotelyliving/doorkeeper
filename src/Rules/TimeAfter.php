@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RemotelyLiving\Doorkeeper\Rules;
 
-use RemotelyLiving\Doorkeeper\Requestor;
+use RemotelyLiving\Doorkeeper\RequestorInterface;
 use RemotelyLiving\Doorkeeper\Utilities;
 
 class TimeAfter extends AbstractRule
@@ -24,7 +24,7 @@ class TimeAfter extends AbstractRule
         return $this->timeAfter->format('Y-m-d H:i:s');
     }
 
-    protected function childCanBeSatisfied(Requestor $requestor = null): bool
+    protected function childCanBeSatisfied(RequestorInterface $requestor = null): bool
     {
         return $this->timeAfter < $this->timeUtility->getImmutableDateTime('now');
     }

@@ -13,17 +13,17 @@ final class Factory
         $this->ruleTypeMapper = $typeMapper ?? new TypeMapper();
     }
 
-    public function createFromArray(array $fields): AbstractRule
+    public function createFromArray(array $fields): RuleInterface
     {
         $ruleType = $this->normalizeRuleType($fields['type']);
 
-        /** @var \RemotelyLiving\Doorkeeper\Rules\AbstractRule $rule */
+        /** @var \RemotelyLiving\Doorkeeper\Rules\RuleInterface $rule */
         $rule = isset($fields['value']) ? new $ruleType($fields['value']) : new $ruleType();
 
         return isset($fields['prerequisites']) ? $this->addPrerequisites($rule, $fields['prerequisites']) : $rule;
     }
 
-    private function addPrerequisites(AbstractRule $rule, array $prequisites): AbstractRule
+    private function addPrerequisites(RuleInterface $rule, array $prequisites): RuleInterface
     {
         foreach ($prequisites as $prequisite) {
             $preReqType = $this->normalizeRuleType($prequisite['type']);
@@ -36,7 +36,7 @@ final class Factory
     }
 
     /**
-     * @param string|int$type
+     * @param string|int $type
      */
     private function normalizeRuleType($type): string
     {

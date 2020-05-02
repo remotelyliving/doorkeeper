@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RemotelyLiving\Doorkeeper\Tests\Stubs;
 
-use RemotelyLiving\Doorkeeper\Requestor;
+use RemotelyLiving\Doorkeeper\RequestorInterface;
 use RemotelyLiving\Doorkeeper\Rules;
 
 class AbstractRule extends Rules\AbstractRule
@@ -20,7 +20,7 @@ class AbstractRule extends Rules\AbstractRule
     /**
      * @inheritdoc
      */
-    public function childCanBeSatisfied(Requestor $requestor = null): bool
+    public function childCanBeSatisfied(RequestorInterface $requestor = null): bool
     {
         $requestor;
         return true;

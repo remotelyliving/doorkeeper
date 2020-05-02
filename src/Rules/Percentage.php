@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RemotelyLiving\Doorkeeper\Rules;
 
-use RemotelyLiving\Doorkeeper\Requestor;
+use RemotelyLiving\Doorkeeper\RequestorInterface;
 use RemotelyLiving\Doorkeeper\Utilities;
 
 final class Percentage extends AbstractRule
@@ -28,7 +28,7 @@ final class Percentage extends AbstractRule
         return $this->chances;
     }
 
-    protected function childCanBeSatisfied(Requestor $requestor = null): bool
+    protected function childCanBeSatisfied(RequestorInterface $requestor = null): bool
     {
         $lotteryNumber = $this->randomizer->generateRangedRandomInt(1, 100);
 

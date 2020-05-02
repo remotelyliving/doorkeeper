@@ -9,7 +9,7 @@ use RemotelyLiving\Doorkeeper\Features;
 use RemotelyLiving\Doorkeeper\Logger;
 use RemotelyLiving\Doorkeeper\Utilities;
 
-final class Doorkeeper
+final class Doorkeeper implements DoorkeeperInterface
 {
     private Features\Set $featureSet;
 
@@ -17,7 +17,7 @@ final class Doorkeeper
 
     private PSRLog\LoggerInterface $auditLog;
 
-    private ?Requestor $requestor = null;
+    private ?RequestorInterface $requestor = null;
 
     public function __construct(
         Features\Set $featureSet,
@@ -32,7 +32,7 @@ final class Doorkeeper
     /**
      * @throws \DomainException
      */
-    public function setRequestor(Requestor $requestor): void
+    public function setRequestor(RequestorInterface $requestor): void
     {
         if ($this->requestor) {
             throw new \DomainException('Requestor already set');
@@ -41,7 +41,7 @@ final class Doorkeeper
         $this->requestor = $requestor;
     }
 
-    public function getRequestor(): ?Requestor
+    public function getRequestor(): ?RequestorInterface
     {
         return $this->requestor;
     }
@@ -51,7 +51,7 @@ final class Doorkeeper
         return $this->grantsAccessToRequestor($featureName, $this->requestor);
     }
 
-    public function grantsAccessToRequestor(string $featureName, Requestor $requestor = null): bool
+    public function grantsAccessToRequestor(string $featureName, RequestorInterface $requestor = null): bool
     {
         $logContext = [
             Logger\Processor::CONTEXT_KEY_REQUESTOR => $requestor,

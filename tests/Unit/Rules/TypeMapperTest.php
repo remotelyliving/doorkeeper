@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RemotelyLiving\Doorkeeper\Tests\Unit\Rules;
 
 use PHPUnit\Framework\TestCase;
-use RemotelyLiving\Doorkeeper\Requestor;
+use RemotelyLiving\Doorkeeper\RequestorInterface;
 use RemotelyLiving\Doorkeeper\Rules;
 
 class TypeMapperTest extends TestCase
@@ -13,7 +13,7 @@ class TypeMapperTest extends TestCase
     public function testGetsIdForClassnameAndClassnameForId(): void
     {
         $extraType = new class extends Rules\AbstractRule {
-            protected function childCanBeSatisfied(Requestor $requestor = null): bool
+            protected function childCanBeSatisfied(RequestorInterface $requestor = null): bool
             {
                 return true;
             }

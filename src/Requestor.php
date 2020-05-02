@@ -7,7 +7,7 @@ namespace RemotelyLiving\Doorkeeper;
 use Psr\Http;
 use RemotelyLiving\Doorkeeper\Identification;
 
-final class Requestor
+final class Requestor implements RequestorInterface
 {
     /**
      * @var Identification\Collection[]
@@ -26,7 +26,7 @@ final class Requestor
         return md5(serialize($this->idCollections));
     }
 
-    public function registerIdentification(Identification\AbstractIdentification $identification): void
+    public function registerIdentification(Identification\IdentificationInterface $identification): void
     {
         $type = $identification->getType();
 

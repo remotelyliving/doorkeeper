@@ -1,39 +1,28 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Features;
 
-use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache;
 
-class SetRepository
+final class SetRepository
 {
-    /**
-     * @var \Psr\Cache\CacheItemPoolInterface
-     */
-    private $cache;
+    private Cache\CacheItemPoolInterface $cache;
 
-    /**
-     * @param \Psr\Cache\CacheItemPoolInterface $cache
-     */
-    public function __construct(CacheItemPoolInterface $cache)
+    public function __construct(Cache\CacheItemPoolInterface $cache)
     {
         $this->cache = $cache;
     }
 
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Features\Set $set
-     */
-    public function saveFeatureSet(Set $set)
+    public function saveFeatureSet(Set $set): void
     {
-        $cache_item = $this->cache->getItem(self::generateFeatureSetCacheKey());
-        $cache_item->set($set);
+        $cacheItem = $this->cache->getItem(self::generateFeatureSetCacheKey());
+        $cacheItem->set($set);
 
-        $this->cache->save($cache_item);
+        $this->cache->save($cacheItem);
     }
 
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Features\SetProviderInterface|null $fallback
-     *
-     * @return \RemotelyLiving\Doorkeeper\Features\Set
-     */
     public function getFeatureSet(SetProviderInterface $fallback = null): Set
     {
         $result = $this->cache->getItem(self::generateFeatureSetCacheKey())->get();
@@ -46,14 +35,11 @@ class SetRepository
         return ($result) ?? new Set();
     }
 
-    public function deleteFeatureSet()
+    public function deleteFeatureSet(): void
     {
         $this->cache->deleteItem(self::generateFeatureSetCacheKey());
     }
 
-    /**
-     * @return string
-     */
     public static function generateFeatureSetCacheKey(): string
     {
         return md5(self::class);

@@ -1,29 +1,26 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Requestor;
-use RemotelyLiving\Doorkeeper\Utilities\Randomizer;
+use RemotelyLiving\Doorkeeper\Utilities;
 
-class Percentage extends RuleAbstract
+final class Percentage extends AbstractRule
 {
-    /**
-     * @var int
-     */
-    private $chances;
+    private int $chances;
 
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Utilities\Randomizer
-     */
-    private $randomizer;
+    private Utilities\Randomizer $randomizer;
 
-    public function __construct(int $percentage, Randomizer $randomizer = null)
+    public function __construct(int $percentage, Utilities\Randomizer $randomizer = null)
     {
         if ($percentage < 0 || $percentage > 100) {
             throw new \InvalidArgumentException("Percentage must be represented as a value from 1 to 100");
         }
 
         $this->chances = $percentage;
-        $this->randomizer = $randomizer ?? new Randomizer();
+        $this->randomizer = $randomizer ?? new Utilities\Randomizer();
     }
 
     public function getValue()
@@ -33,12 +30,12 @@ class Percentage extends RuleAbstract
 
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        $lottery_number = $this->randomizer->generateRangedRandomInt(1, 100);
+        $lotteryNumber = $this->randomizer->generateRangedRandomInt(1, 100);
 
         if ($this->chances === 100) {
             return true;
         }
 
-        return $lottery_number <= $this->chances;
+        return $lotteryNumber <= $this->chances;
     }
 }

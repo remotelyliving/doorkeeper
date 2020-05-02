@@ -2,6 +2,7 @@
 [![Total Downloads](https://poser.pugx.org/remotelyliving/doorkeeper/downloads)](https://packagist.org/packages/remotelyliving/doorkeeper)
 [![Coverage Status](https://coveralls.io/repos/github/remotelyliving/doorkeeper/badge.svg?branch=master)](https://coveralls.io/github/remotelyliving/doorkeeper?branch=master) 
 [![License](https://poser.pugx.org/remotelyliving/doorkeeper/license)](https://packagist.org/packages/remotelyliving/doorkeeper)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/remotelyliving/doorkeeper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/remotelyliving/doorkeeper/?branch=master)
 
 # Doorkeeper: a dynamic feature toggle
 
@@ -32,17 +33,17 @@ by changing that configuration.
 // Requestors are the actor requesting access to a new feature
 // They have several forms of identity you can initialize them
 $requestor = ( new Requestor() )
-    ->withUserId($logged_in_user->id)
-    ->withRequest($psr7_request_interface)
+    ->withUserId($user->getId())
+    ->withRequest($request)
     ->withIpAddress('127.0.0.1')
     ->withEnvironment('STAGE')
     ->withStringHash('someArbitraryThingMaybeFromTheQueryString');
  
 // A Feature Set has Features that have Rules     
-$feature_set = $feature_set_repository->getSet();
+$featureSet = $reatureSetRepository->getSet();
 
 // Doorkeper takes in a Feature Set and an audit log if you want to log access results
-$doorkeeper = new Doorkeeper($feature_set, $logger);
+$doorkeeper = new Doorkeeper($featureSet, $logger);
 
 // Set an app instance bound requestor here or pass one to Doorkeeper::grantsAccessToRequestor('feature', $requestor) later
 $doorkeeper->setRequestor($requestor);
@@ -51,16 +52,16 @@ $doorkeeper->setRequestor($requestor);
 ### Usage
 
 ```php
-if ($doorkeeper->grantsAccessTo('some.new.feature') {
+if ($doorkeeper->grantsAccessTo('some.new.feature')) {
     return $this->doNewFeatureStuff();
 }
 
 // If you want to bypass the instance Requestor that was set and create another use Doorkeeper::grantsAccessToRequestor()
 // This is useful for more stateful applications
 
-$other_requestor = (new Requestor)->withUserId($user_id);
+$otherRequestor = (new Requestor()))->withUserId(123);
 
-if ($doorkeeper->grantsAccessToRequestor('some.new.feature', $other_requestor)) {
+if ($doorkeeper->grantsAccessToRequestor('some.new.feature', $otherRequestor)) {
     return $this->doNewFeatureStuff();
 }
 ```
@@ -126,13 +127,13 @@ Rules can be dependant on other rules for any other feature.
 
 ```php
 // create a time range
-$time_before_rule->addPrerequisite($time_after_rule);
+$timeBeforeRule->addPrerequisite($timeAfterRule);
 
 // create a user id rule only for prod
-$user_id_rule->addPrerequisite($prod_environment_rule);
+$userIdRule->addPrerequisite($prodEnvironmentRule);
 
 // add another prereq
-$user_id_rule->addPrerequisite($ip_address_rulle);
+$userIdRule->addPrerequisite($ipAddressRule);
 
 // etc.
 ```
@@ -193,7 +194,7 @@ Checkout that factory method to see the schema of the array that needs to be pas
 How you choose to persist Features is up to you. But there are two things you're responsible for if using the `Features\SetRepository`
 
 1. Clearing the cache when any member of a Feature Set is changed via `SetRepository::deleteFeatureSet()`
-2. Providing a service that can provide a hydrated Feature Set to the `get('some.new.feature', $feature_set_provider)` method
+2. Providing a service that can provide a hydrated Feature Set to the `get('some.new.feature', $featureSetProvider)` method
 
 Doorkeeper also has a runtime cache that caches answers in memory to help as well.
 For persistent applications you'll need to call `Doorkeeper::flushRuntimeCache()`

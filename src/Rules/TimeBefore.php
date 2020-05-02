@@ -1,34 +1,31 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Requestor;
 use RemotelyLiving\Doorkeeper\Utilities;
 
-class TimeBefore extends RuleAbstract
+final class TimeBefore extends AbstractRule
 {
-    /**
-     * @var \DateTimeImmutable
-     */
-    private $time_before;
+    private \DateTimeImmutable $timeBefore;
 
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Utilities\Time
-     */
-    private $time_utility;
+    private Utilities\Time $timeUtility;
 
-    public function __construct(string $time_before, Utilities\Time $time_utility = null)
+    public function __construct(string $timeBefore, Utilities\Time $timeUtility = null)
     {
-        $this->time_utility = $time_utility ?? new Utilities\Time();
-        $this->time_before  = $this->time_utility->getImmutableDateTime($time_before);
+        $this->timeUtility = $timeUtility ?? new Utilities\Time();
+        $this->timeBefore = $this->timeUtility->getImmutableDateTime($timeBefore);
     }
 
     public function getValue()
     {
-        return $this->time_before->format('Y-m-d H:i:s');
+        return $this->timeBefore->format('Y-m-d H:i:s');
     }
 
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        return $this->time_before > $this->time_utility->getImmutableDateTime('now');
+        return $this->timeBefore > $this->timeUtility->getImmutableDateTime('now');
     }
 }

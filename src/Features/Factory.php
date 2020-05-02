@@ -1,35 +1,27 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Features;
 
 use RemotelyLiving\Doorkeeper\Rules;
 
-class Factory
+final class Factory
 {
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Rules\Factory
-     */
-    private $rule_factory;
+    private Rules\Factory $ruleFactory;
 
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Rules\Factory|null $rules_factory
-     */
-    public function __construct(Rules\Factory $rules_factory = null)
+    public function __construct(Rules\Factory $rulesFactory = null)
     {
-        $this->rule_factory = $rules_factory ?? new Rules\Factory();
+        $this->ruleFactory = $rulesFactory ?? new Rules\Factory();
     }
 
-    /**
-     * @param array $feature
-     *
-     * @return \RemotelyLiving\Doorkeeper\Features\Feature
-     */
     public function createFromArray(array $feature): Feature
     {
         $rules = [];
 
         if (isset($feature['rules'])) {
             foreach ($feature['rules'] as $rule) {
-                $rules[] = $this->rule_factory->createFromArray($rule);
+                $rules[] = $this->ruleFactory->createFromArray($rule);
             }
         }
         

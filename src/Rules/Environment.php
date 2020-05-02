@@ -1,15 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Identification;
 use RemotelyLiving\Doorkeeper\Requestor;
 
-class Environment extends RuleAbstract
+final class Environment extends AbstractRule
 {
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Identification\Environment
-     */
-    private $environment;
+    private Identification\Environment $environment;
 
     public function __construct(string $environment)
     {

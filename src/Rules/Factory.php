@@ -1,45 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
-class Factory
+final class Factory
 {
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Rules\TypeMapper
-     */
-    private $rule_type_mapper;
+    private TypeMapper $ruleTypeMapper;
 
-    public function __construct(TypeMapper $type_mapper = null)
+    public function __construct(TypeMapper $typeMapper = null)
     {
-        $this->rule_type_mapper = $type_mapper ?? new TypeMapper();
+        $this->ruleTypeMapper = $typeMapper ?? new TypeMapper();
     }
 
-    public function createFromArray(array $fields): RuleAbstract
+    public function createFromArray(array $fields): AbstractRule
     {
-        $rule_type = $this->normalizeRuleType($fields['type']);
+        $ruleType = $this->normalizeRuleType($fields['type']);
 
-        /** @var \RemotelyLiving\Doorkeeper\Rules\RuleAbstract $rule */
-        $rule = isset($fields['value']) ? new $rule_type($fields['value']) : new $rule_type;
+        /** @var \RemotelyLiving\Doorkeeper\Rules\AbstractRule $rule */
+        $rule = isset($fields['value']) ? new $ruleType($fields['value']) : new $ruleType();
 
         return isset($fields['prerequisites']) ? $this->addPrerequisites($rule, $fields['prerequisites']) : $rule;
     }
 
-    private function addPrerequisites(RuleAbstract $rule, array $prequisites): RuleAbstract
+    private function addPrerequisites(AbstractRule $rule, array $prequisites): AbstractRule
     {
         foreach ($prequisites as $prequisite) {
-            $pre_req_type = $this->normalizeRuleType($prequisite['type']);
-            $pre_req = isset($prequisite['value']) ? new $pre_req_type($prequisite['value']) : new $pre_req_type;
+            $preReqType = $this->normalizeRuleType($prequisite['type']);
+            $preReq = isset($prequisite['value']) ? new $preReqType($prequisite['value']) : new $preReqType();
 
-            $rule->addPrerequisite($pre_req);
+            $rule->addPrerequisite($preReq);
         }
 
         return $rule;
     }
 
+    /**
+     * @param string|int$type
+     */
     private function normalizeRuleType($type): string
     {
         if (is_numeric($type)) {
-            return $this->rule_type_mapper->getClassNameById((int) $type);
+            return $this->ruleTypeMapper->getClassNameById((int) $type);
         }
 
         $fqcnSegments = explode('\\', $type);

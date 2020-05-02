@@ -1,31 +1,31 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Identification;
 use RemotelyLiving\Doorkeeper\Requestor;
 
-class UserId extends RuleAbstract
+final class UserId extends AbstractRule
 {
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Identification\UserId
-     */
-    private $user_id;
+    private Identification\UserId $userId;
 
     /**
-     * @param string|int $user_id
+     * @param string|int $userId
      */
-    public function __construct($user_id)
+    public function __construct($userId)
     {
-        $this->user_id = new Identification\UserId($user_id);
+        $this->userId = new Identification\UserId($userId);
     }
 
     public function getValue()
     {
-        return $this->user_id->getIdentifier();
+        return $this->userId->getIdentifier();
     }
 
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        return $this->requestorHasMatchingId($requestor, $this->user_id);
+        return $this->requestorHasMatchingId($requestor, $this->userId);
     }
 }

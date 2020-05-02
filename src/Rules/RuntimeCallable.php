@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Requestor;
 
-class RuntimeCallable extends RuleAbstract
+final class RuntimeCallable extends AbstractRule
 {
     /**
      * @var callable
@@ -18,6 +21,6 @@ class RuntimeCallable extends RuleAbstract
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         $localFn = $this->runtimeCallable;
-        return $localFn($requestor);
+        return (bool) $localFn($requestor);
     }
 }

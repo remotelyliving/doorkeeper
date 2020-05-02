@@ -1,12 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Features;
 
-class Set implements \JsonSerializable
+final class Set implements \JsonSerializable
 {
     /**
      * @var \RemotelyLiving\Doorkeeper\Features\Feature[]
      */
-    private $features;
+    private $features = [];
 
     /**
      * @param \RemotelyLiving\Doorkeeper\Features\Feature[] $features
@@ -18,22 +21,14 @@ class Set implements \JsonSerializable
         }
     }
 
-    /**
-     * @param \RemotelyLiving\Doorkeeper\Features\Feature $feature
-     */
-    public function pushFeature(Feature $feature)
+    public function pushFeature(Feature $feature): void
     {
         $this->features[$feature->getName()] = $feature;
     }
 
-    /**
-     * @param string $feature_name
-     *
-     * @return bool
-     */
-    public function offsetExists(string $feature_name): bool
+    public function offsetExists(string $featureName): bool
     {
-        return isset($this->features[$feature_name]);
+        return isset($this->features[$featureName]);
     }
 
     /**
@@ -44,18 +39,13 @@ class Set implements \JsonSerializable
         return $this->features;
     }
 
-    /**
-     * @param string $feature_name
-     *
-     * @return \RemotelyLiving\Doorkeeper\Features\Feature
-     */
-    public function getFeatureByName(string $feature_name): Feature
+    public function getFeatureByName(string $featureName): Feature
     {
-        if (!$this->offsetExists($feature_name)) {
-            throw new \OutOfBoundsException("Feature {$feature_name} does not exist");
+        if (!$this->offsetExists($featureName)) {
+            throw new \OutOfBoundsException("Feature {$featureName} does not exist");
         }
 
-        return $this->features[$feature_name];
+        return $this->features[$featureName];
     }
 
     /**

@@ -1,28 +1,28 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Identification;
 use RemotelyLiving\Doorkeeper\Requestor;
 
-class PipedComposite extends RuleAbstract
+final class PipedComposite extends AbstractRule
 {
-    /**
-     * @var Identification\PipedComposite
-     */
-    private $piped_composite;
+    private Identification\PipedComposite $pipedComposite;
 
-    public function __construct(string $piped_composite)
+    public function __construct(string $pipedComposite)
     {
-        $this->piped_composite = new Identification\PipedComposite($piped_composite);
+        $this->pipedComposite = new Identification\PipedComposite($pipedComposite);
     }
 
     public function getValue()
     {
-        return $this->piped_composite->getIdentifier();
+        return $this->pipedComposite->getIdentifier();
     }
 
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        return $this->requestorHasMatchingId($requestor, $this->piped_composite);
+        return $this->requestorHasMatchingId($requestor, $this->pipedComposite);
     }
 }

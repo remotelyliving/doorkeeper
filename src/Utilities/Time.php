@@ -1,10 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Utilities;
 
 class Time
 {
-    public function getImmutableDateTime(string $time_string = 'now'): \DateTimeImmutable
+    public function getImmutableDateTime(string $timeString = 'now'): \DateTimeImmutable
     {
-        return new \DateTimeImmutable($time_string);
+        return new \DateTimeImmutable($timeString);
     }
 }

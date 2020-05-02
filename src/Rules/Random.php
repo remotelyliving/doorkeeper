@@ -1,27 +1,24 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Requestor;
-use RemotelyLiving\Doorkeeper\Utilities\Randomizer;
+use RemotelyLiving\Doorkeeper\Utilities;
 
-class Random extends RuleAbstract
+final class Random extends AbstractRule
 {
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Utilities\Randomizer
-     */
-    private $randomizer;
+    private Utilities\Randomizer $randomizer;
 
-    public function __construct(Randomizer $randomizer = null)
+    public function __construct(Utilities\Randomizer $randomizer = null)
     {
-        $this->randomizer = $randomizer ?? new Randomizer();
+        $this->randomizer = $randomizer ?? new Utilities\Randomizer();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
         return ($this->randomizer->generateRangedRandomInt(1, 100)
-            === $this->randomizer->generateRangedRandomInt(1, 100));
+         === $this->randomizer->generateRangedRandomInt(1, 100));
     }
 }

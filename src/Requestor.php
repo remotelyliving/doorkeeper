@@ -1,15 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http;
 use RemotelyLiving\Doorkeeper\Identification;
 
-class Requestor
+final class Requestor
 {
     /**
      * @var Identification\Collection[]
      */
-    private $id_collections = [];
+    private $idCollections = [];
 
     public function __construct(array $identifications = [])
     {
@@ -20,39 +23,37 @@ class Requestor
 
     public function getIdentityHash(): string
     {
-        return md5(serialize($this->id_collections));
+        return md5(serialize($this->idCollections));
     }
 
-    public function registerIdentification(Identification\IdentificationAbstract $identification)
+    public function registerIdentification(Identification\AbstractIdentification $identification): void
     {
         $type = $identification->getType();
 
-        if (!isset($this->id_collections[$type])) {
-            $this->id_collections[$type] = new Identification\Collection($type, [$identification]);
+        if (!isset($this->idCollections[$type])) {
+            $this->idCollections[$type] = new Identification\Collection($type, [$identification]);
             return;
         }
 
-        $this->id_collections[$type]->add($identification);
+        $this->idCollections[$type]->add($identification);
     }
 
     public function getIdentificationCollections(): array
     {
-        return $this->id_collections;
+        return $this->idCollections;
     }
 
-    public function hasIdentification(Identification\IdentificationAbstract $identification): bool
+    public function hasIdentification(Identification\IdentificationInterface $identification): bool
     {
-        if (!isset($this->id_collections[$identification->getType()])) {
+        if (!isset($this->idCollections[$identification->getType()])) {
             return false;
         }
 
-        return $this->id_collections[$identification->getType()]->has($identification);
+        return $this->idCollections[$identification->getType()]->has($identification);
     }
 
     /**
-     * @param int|string $id
-     *
-     * @return self
+     * @param string|int $id
      */
     public function withUserId($id): self
     {
@@ -62,10 +63,10 @@ class Requestor
         return $mutee;
     }
 
-    public function withIpAddress(string $ip_address): self
+    public function withIpAddress(string $ipAddress): self
     {
         $mutee = clone $this;
-        $mutee->registerIdentification(new Identification\IpAddress($ip_address));
+        $mutee->registerIdentification(new Identification\IpAddress($ipAddress));
 
         return $mutee;
     }
@@ -78,7 +79,7 @@ class Requestor
         return $mutee;
     }
 
-    public function withRequest(RequestInterface $request): self
+    public function withRequest(Http\Message\RequestInterface $request): self
     {
         $mutee = clone $this;
         $mutee->registerIdentification(Identification\HttpHeader::createFromRequest($request));
@@ -94,18 +95,18 @@ class Requestor
         return $mutee;
     }
 
-    public function withPipedComposite(string $piped_composite): self
+    public function withPipedComposite(string $pipedComposite): self
     {
         $mutee = clone $this;
-        $mutee->registerIdentification(new Identification\PipedComposite($piped_composite));
+        $mutee->registerIdentification(new Identification\PipedComposite($pipedComposite));
 
         return $mutee;
     }
 
-    public function withIntegerId(int $integer_id): self
+    public function withIntegerId(int $integerId): self
     {
         $mutee = clone $this;
-        $mutee->registerIdentification(new Identification\IntegerId($integer_id));
+        $mutee->registerIdentification(new Identification\IntegerId($integerId));
 
         return $mutee;
     }

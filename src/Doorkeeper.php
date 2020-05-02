@@ -1,46 +1,38 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper;
 
-use Psr\Log\LoggerInterface;
-use RemotelyLiving\Doorkeeper\Logger\Processor;
-use RemotelyLiving\Doorkeeper\Utilities\RuntimeCache;
+use Psr\Log as PSRLog;
+use RemotelyLiving\Doorkeeper\Features;
+use RemotelyLiving\Doorkeeper\Logger;
+use RemotelyLiving\Doorkeeper\Utilities;
 
-class Doorkeeper
+final class Doorkeeper
 {
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Features\Set
-     */
-    private $feature_set;
+    private Features\Set $featureSet;
 
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Utilities\RuntimeCache
-     */
-    private $runtime_cache;
+    private Utilities\RuntimeCache $runtimeCache;
 
-    /**
-     * @var \Psr\Log\LoggerInterface|null
-     */
-    private $audit_log;
+    private PSRLog\LoggerInterface $auditLog;
 
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Requestor|null
-     */
-    private $requestor = null;
+    private ?Requestor $requestor = null;
 
     public function __construct(
-        Features\Set $feature_set,
-        RuntimeCache $cache = null,
-        LoggerInterface $audit_log = null
+        Features\Set $featureSet,
+        Utilities\RuntimeCache $cache = null,
+        PSRLog\LoggerInterface $auditLog = null
     ) {
-        $this->feature_set   = $feature_set;
-        $this->audit_log     = $audit_log;
-        $this->runtime_cache = $cache ?? new RuntimeCache();
+        $this->featureSet = $featureSet;
+        $this->auditLog = $auditLog ?? new PSRLog\NullLogger();
+        $this->runtimeCache = $cache ?? new Utilities\RuntimeCache();
     }
 
     /**
      * @throws \DomainException
      */
-    public function setRequestor(Requestor $requestor)
+    public function setRequestor(Requestor $requestor): void
     {
         if ($this->requestor) {
             throw new \DomainException('Requestor already set');
@@ -49,37 +41,34 @@ class Doorkeeper
         $this->requestor = $requestor;
     }
 
-    /**
-     * @return \RemotelyLiving\Doorkeeper\Requestor|null
-     */
-    public function getRequestor()
+    public function getRequestor(): ?Requestor
     {
         return $this->requestor;
     }
 
-    public function grantsAccessTo(string $feature_name): bool
+    public function grantsAccessTo(string $featureName): bool
     {
-        return $this->grantsAccessToRequestor($feature_name, $this->requestor);
+        return $this->grantsAccessToRequestor($featureName, $this->requestor);
     }
 
-    public function grantsAccessToRequestor(string $feature_name, Requestor $requestor = null): bool
+    public function grantsAccessToRequestor(string $featureName, Requestor $requestor = null): bool
     {
-        $log_context = [
-            Processor::CONTEXT_KEY_REQUESTOR => $requestor,
-            Processor::FEATURE_ID            => $feature_name,
+        $logContext = [
+            Logger\Processor::CONTEXT_KEY_REQUESTOR => $requestor,
+            Logger\Processor::FEATURE_ID => $featureName,
         ];
 
-        if (!$this->feature_set->offsetExists($feature_name)) {
-            $this->logAttempt('Access denied because feature does not exist.', $log_context);
+        if (!$this->featureSet->offsetExists($featureName)) {
+            $this->logAttempt('Access denied because feature does not exist.', $logContext);
             return false;
         }
 
-        $cache_key = md5(sprintf('%s:%s', $feature_name, ($requestor) ? $requestor->getIdentityHash() : ''));
-        $fallback = function () use ($feature_name, $requestor, $log_context): bool {
-            $feature = $this->feature_set->getFeatureByName($feature_name);
+        $cache_key = md5(sprintf('%s:%s', $featureName, ($requestor) ? $requestor->getIdentityHash() : ''));
+        $fallback = function () use ($featureName, $requestor, $logContext): bool {
+            $feature = $this->featureSet->getFeatureByName($featureName);
 
             if (!$feature->isEnabled()) {
-                $this->logAttempt('Access denied because feature is disabled.', $log_context);
+                $this->logAttempt('Access denied because feature is disabled.', $logContext);
                 return false;
             }
 
@@ -89,29 +78,25 @@ class Doorkeeper
 
             foreach ($feature->getRules() as $rule) {
                 if ($rule->canBeSatisfied($requestor)) {
-                    $this->logAttempt('Access granted to feature', $log_context);
+                    $this->logAttempt('Access granted to feature', $logContext);
                     return true;
                 }
             }
 
-            $this->logAttempt('Access denied to feature', $log_context);
+            $this->logAttempt('Access denied to feature', $logContext);
             return false;
         };
 
-        return $this->runtime_cache->get($cache_key, $fallback);
+        return (bool) $this->runtimeCache->get($cache_key, $fallback);
     }
 
-    public function flushRuntimeCache()
+    public function flushRuntimeCache(): void
     {
-        $this->runtime_cache->flush();
+        $this->runtimeCache->flush();
     }
 
-    private function logAttempt(string $message, array $context)
+    private function logAttempt(string $message, array $context): void
     {
-        if (!$this->audit_log) {
-            return;
-        }
-
-        $this->audit_log->info($message, $context);
+        $this->auditLog->info($message, $context);
     }
 }

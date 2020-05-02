@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Requestor;
@@ -7,16 +9,13 @@ use RemotelyLiving\Doorkeeper\Requestor;
 interface RuleInterface extends \JsonSerializable
 {
     /**
-     * @return RuleInterface[]
+     * @return \RemotelyLiving\Doorkeeper\Rules\RuleInterface[]
      */
-    public function getPrerequisites();
+    public function getPrerequisites(): iterable;
 
-    /**
-     * @return bool
-     */
     public function hasPrerequisites(): bool;
 
-    public function addPrerequisite(RuleInterface $rule);
+    public function addPrerequisite(RuleInterface $rule): void;
 
     public function canBeSatisfied(Requestor $requestor = null): bool;
 

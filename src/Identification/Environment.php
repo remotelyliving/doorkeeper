@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Identification;
 
-class Environment extends IdentificationAbstract
+final class Environment extends AbstractIdentification
 {
-    public function validate($string)
+    protected function validate($string): void
     {
         if (!is_string($string)) {
             throw new \InvalidArgumentException("{$string} is not a string");

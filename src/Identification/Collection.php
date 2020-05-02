@@ -1,22 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Identification;
 
-class Collection implements \Countable, \IteratorAggregate
+final class Collection implements \Countable, \IteratorAggregate
 {
-    /**
-     * @var string
-     */
-    private $class_type;
+    private string $classType;
 
     /**
-     * @var array
+     * @var \RemotelyLiving\Doorkeeper\Identification\IdentificationInterface[]
      */
     private $identifications = [];
 
-    public function __construct(string $class_type, array $identifications = [])
+    public function __construct(string $classType, array $identifications = [])
     {
-        $this->class_type = $class_type;
+        $this->classType = $classType;
 
         foreach ($identifications as $identification) {
             $this->add($identification);
@@ -33,31 +32,28 @@ class Collection implements \Countable, \IteratorAggregate
         return count($this->identifications);
     }
 
-    public function add(IdentificationAbstract $identification)
+    public function add(IdentificationInterface $identification): void
     {
-        if (get_class($identification) !== $this->class_type) {
-            throw new \InvalidArgumentException("Identification must be a {$this->class_type}");
+        if (get_class($identification) !== $this->classType) {
+            throw new \InvalidArgumentException("Identification must be a {$this->classType}");
         }
 
         $this->identifications[$identification->getIdentifier()] = $identification;
     }
 
-    public function remove(IdentificationAbstract $identification)
+    public function remove(IdentificationInterface $identification): void
     {
         if ($this->has($identification)) {
             unset($this->identifications[$identification->getIdentifier()]);
         }
     }
 
-    /**
-     * @return null|IdentificationAbstract
-     */
-    public function get(string $id)
+    public function get(string $id): ?IdentificationInterface
     {
         return $this->identifications[$id] ?? null;
     }
 
-    public function has(IdentificationAbstract $identification): bool
+    public function has(IdentificationInterface $identification): bool
     {
         return isset($this->identifications[$identification->getIdentifier()]);
     }

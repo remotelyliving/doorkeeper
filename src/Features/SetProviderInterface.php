@@ -1,10 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Features;
 
 interface SetProviderInterface
 {
-    /**
-     * @return \RemotelyLiving\Doorkeeper\Features\Set
-     */
     public function getFeatureSet(): Set;
 }

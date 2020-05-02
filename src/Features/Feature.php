@@ -1,24 +1,21 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Features;
 
 use RemotelyLiving\Doorkeeper\Rules;
 
-class Feature implements \JsonSerializable
+final class Feature implements \JsonSerializable
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var bool
-     */
-    private $enabled;
+    private bool $enabled;
 
     /**
      * @var \RemotelyLiving\Doorkeeper\Rules\RuleInterface[]
      */
-    private $rule_set = [];
+    private $ruleSet = [];
 
     /**
      * @param string                                           $name
@@ -27,38 +24,30 @@ class Feature implements \JsonSerializable
      */
     public function __construct(string $name, bool $enabled, array $rules = [])
     {
-        $this->name       = $name;
-        $this->enabled  = $enabled;
+        $this->name      = $name;
+        $this->enabled = $enabled;
 
         foreach ($rules as $rule) {
             $this->addRule($rule);
         }
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return bool
-     */
     public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
     /**
-     * @param \RemotelyLiving\Doorkeeper\Rules\RuleInterface $rule
-     *
      * @throws \DomainException
      */
-    public function addRule(Rules\RuleInterface $rule)
+    public function addRule(Rules\RuleInterface $rule): void
     {
-        $this->rule_set[] = $rule;
+        $this->ruleSet[] = $rule;
     }
 
     /**
@@ -66,18 +55,15 @@ class Feature implements \JsonSerializable
      */
     public function getRules(): array
     {
-        return $this->rule_set;
+        return $this->ruleSet;
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize(): array
     {
         return [
             'name' => $this->name,
             'enabled' => $this->enabled,
-            'rules' => $this->rule_set,
+            'rules' => $this->ruleSet,
         ];
     }
 }

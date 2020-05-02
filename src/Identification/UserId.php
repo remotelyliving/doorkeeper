@@ -1,17 +1,24 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Identification;
 
-use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid;
 
-class UserId extends IdentificationAbstract
+final class UserId extends AbstractIdentification
 {
-    public function validate($value)
+    protected function validate($value): void
     {
-        if (is_numeric($value)) {
+        if (is_int($value)) {
             return;
         }
 
-        if (Uuid::isValid($value)) {
+        if (Uuid\Uuid::isValid((string) $value)) {
+            return;
+        }
+
+        if (is_string($value)) {
             return;
         }
 

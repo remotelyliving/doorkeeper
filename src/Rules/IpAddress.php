@@ -1,28 +1,28 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Identification;
 use RemotelyLiving\Doorkeeper\Requestor;
 
-class IpAddress extends RuleAbstract
+final class IpAddress extends AbstractRule
 {
-    /**
-     * @var Identification\IpAddress
-     */
-    private $ip_address;
+    private Identification\IpAddress $ipAddress;
 
-    public function __construct(string $ip_address)
+    public function __construct(string $ipAddress)
     {
-        $this->ip_address = new Identification\IpAddress($ip_address);
+        $this->ipAddress = new Identification\IpAddress($ipAddress);
     }
 
     public function getValue()
     {
-        return $this->ip_address->getIdentifier();
+        return $this->ipAddress->getIdentifier();
     }
 
     protected function childCanBeSatisfied(Requestor $requestor = null): bool
     {
-        return $this->requestorHasMatchingId($requestor, $this->ip_address);
+        return $this->requestorHasMatchingId($requestor, $this->ipAddress);
     }
 }

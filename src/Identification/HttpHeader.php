@@ -1,17 +1,20 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Identification;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http;
+use RemotelyLiving\Doorkeeper\Rules;
 
-class HttpHeader extends IdentificationAbstract
+final class HttpHeader extends AbstractIdentification
 {
-    public function validate($string)
+    protected function validate($string): void
     {
-        return;
     }
 
-    public static function createFromRequest(RequestInterface $request): self
+    public static function createFromRequest(Http\Message\RequestInterface $request): self
     {
-        return new HttpHeader($request->getHeaderLine(\RemotelyLiving\Doorkeeper\Rules\HttpHeader::HEADER_KEY));
+        return new self($request->getHeaderLine(Rules\HttpHeader::HEADER_KEY));
     }
 }

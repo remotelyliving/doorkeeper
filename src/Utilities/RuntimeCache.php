@@ -1,26 +1,26 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Utilities;
 
-class RuntimeCache
+final class RuntimeCache
 {
     /**
      * @var mixed[]
      */
     private $cache = [];
 
-    /**
-     * @var int|null
-     */
-    private $max_cache_items;
+    private ?int $maxCacheItems;
 
-    /**
-     * @param int|null $max_cache_items
-     */
-    public function __construct(int $max_cache_items = null)
+    public function __construct(int $maxCacheItems = null)
     {
-        $this->max_cache_items = $max_cache_items;
+        $this->maxCacheItems = $maxCacheItems;
     }
 
+    /**
+     * @return mixed|null
+     */
     public function get(string $key, callable $fallback = null)
     {
         if ($this->has($key)) {
@@ -43,21 +43,24 @@ class RuntimeCache
         return isset($this->cache[$key]);
     }
 
-    public function set(string $key, $value)
+    /**
+     * @param mixed $value
+     */
+    public function set(string $key, $value): void
     {
-        if ($this->max_cache_items !== null && count($this->cache) >= $this->max_cache_items) {
+        if ($this->maxCacheItems !== null && count($this->cache) >= $this->maxCacheItems) {
             array_shift($this->cache);
         }
 
         $this->cache[$key] = $value;
     }
 
-    public function destroy(string $key)
+    public function destroy(string $key): void
     {
         unset($this->cache[$key]);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->cache = [];
     }

@@ -1,21 +1,21 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Identification;
 use RemotelyLiving\Doorkeeper\Requestor;
 
-class HttpHeader extends RuleAbstract
+final class HttpHeader extends AbstractRule
 {
-    const HEADER_KEY = 'doorkeeper';
+    public const HEADER_KEY = 'doorkeeper';
 
-    /**
-     * @var \RemotelyLiving\Doorkeeper\Identification\HttpHeader
-     */
-    private $header;
+    private Identification\HttpHeader $header;
 
-    public function __construct(string $header_value)
+    public function __construct(string $headerValue)
     {
-        $this->header = new Identification\HttpHeader($header_value);
+        $this->header = new Identification\HttpHeader($headerValue);
     }
 
     public function getValue()

@@ -1,0 +1,19 @@
+build:
+  environment:
+    php:
+      version: '7.4.5'
+  nodes:
+    my-tests:
+      environment:
+        php:
+          version: '7.4.5'
+      cache:
+        disabled: true
+
+  dependencies:
+    override:
+      - composer install --ignore-platform-reqs --no-interaction
+
+build_failure_conditions:
+  - 'elements.rating(<= B).new.exists'                        # No new classes/methods with a rating of C or worse allowed
+  - 'project.metric_change("scrutinizer.test_coverage", < 0)' # Code Coverage decreased from previous inspection

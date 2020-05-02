@@ -1,11 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 namespace RemotelyLiving\Doorkeeper\Identification;
 
-class PipedComposite extends IdentificationAbstract
+final class PipedComposite extends AbstractIdentification
 {
-    public function validate($value)
+    protected function validate($value): void
     {
-        if (!$value || !stristr($value, '|')) {
+        if (!$value || mb_strpos((string)$value, '|') === false) {
             throw new \InvalidArgumentException("{$value} is not a pipe delimited composite");
         }
     }

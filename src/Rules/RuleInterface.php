@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RemotelyLiving\Doorkeeper\Rules;
 
-use RemotelyLiving\Doorkeeper\Requestor;
+use RemotelyLiving\Doorkeeper\RequestorInterface;
 
 interface RuleInterface extends \JsonSerializable
 {
@@ -17,7 +17,7 @@ interface RuleInterface extends \JsonSerializable
 
     public function addPrerequisite(RuleInterface $rule): void;
 
-    public function canBeSatisfied(Requestor $requestor = null): bool;
+    public function canBeSatisfied(RequestorInterface $requestor = null): bool;
 
     /**
      * @return mixed|null

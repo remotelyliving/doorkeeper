@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RemotelyLiving\Doorkeeper\Rules;
 
-use RemotelyLiving\Doorkeeper\Requestor;
+use RemotelyLiving\Doorkeeper\RequestorInterface;
 
 final class RuntimeCallable extends AbstractRule
 {
@@ -18,7 +18,7 @@ final class RuntimeCallable extends AbstractRule
         $this->runtimeCallable = $runtimeCallable;
     }
 
-    protected function childCanBeSatisfied(Requestor $requestor = null): bool
+    protected function childCanBeSatisfied(RequestorInterface $requestor = null): bool
     {
         $localFn = $this->runtimeCallable;
         return (bool) $localFn($requestor);

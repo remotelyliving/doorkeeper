@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Identification;
-use RemotelyLiving\Doorkeeper\Requestor;
+use RemotelyLiving\Doorkeeper\RequestorInterface;
 
 abstract class AbstractRule implements RuleInterface
 {
@@ -34,7 +34,7 @@ abstract class AbstractRule implements RuleInterface
         return null;
     }
 
-    final public function canBeSatisfied(Requestor $requestor = null): bool
+    final public function canBeSatisfied(RequestorInterface $requestor = null): bool
     {
         if ($this->hasPrerequisites()) {
             foreach ($this->prerequisites as $prerequisite) {
@@ -57,7 +57,7 @@ abstract class AbstractRule implements RuleInterface
     }
 
     protected function requestorHasMatchingId(
-        Requestor $requestor = null,
+        RequestorInterface $requestor = null,
         Identification\IdentificationInterface $identification
     ): bool {
         if (!$requestor) {
@@ -67,5 +67,5 @@ abstract class AbstractRule implements RuleInterface
         return $requestor->hasIdentification($identification);
     }
 
-    abstract protected function childCanBeSatisfied(Requestor $requestor = null): bool;
+    abstract protected function childCanBeSatisfied(RequestorInterface $requestor = null): bool;
 }

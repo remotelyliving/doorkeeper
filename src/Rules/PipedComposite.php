@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Identification;
-use RemotelyLiving\Doorkeeper\Requestor;
+use RemotelyLiving\Doorkeeper\RequestorInterface;
 
 final class PipedComposite extends AbstractRule
 {
@@ -21,7 +21,7 @@ final class PipedComposite extends AbstractRule
         return $this->pipedComposite->getIdentifier();
     }
 
-    protected function childCanBeSatisfied(Requestor $requestor = null): bool
+    protected function childCanBeSatisfied(RequestorInterface $requestor = null): bool
     {
         return $this->requestorHasMatchingId($requestor, $this->pipedComposite);
     }

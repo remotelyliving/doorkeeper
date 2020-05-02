@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace RemotelyLiving\Doorkeeper\Logger;
 
 use RemotelyLiving\Doorkeeper\Identification;
-use RemotelyLiving\Doorkeeper\Requestor;
+use RemotelyLiving\Doorkeeper\RequestorInterface;
 
 final class Processor
 {
-    public const CONTEXT_KEY_REQUESTOR = Requestor::class;
+    public const CONTEXT_KEY_REQUESTOR = 'requestor';
     public const CONTEXT_KEY_IDENTIFIERS = 'identifiers';
     public const FEATURE_ID = 'featureId';
 
@@ -22,12 +22,12 @@ final class Processor
     {
         if (
             !isset($record['context'][static::CONTEXT_KEY_REQUESTOR])
-            || !$record['context'][static::CONTEXT_KEY_REQUESTOR] instanceof Requestor
+            || !$record['context'][static::CONTEXT_KEY_REQUESTOR] instanceof RequestorInterface
         ) {
             return $record;
         }
 
-        /** @var Requestor $requestor */
+        /** @var \RemotelyLiving\Doorkeeper\RequestorInterface $requestor */
         $requestor = $record['context'][static::CONTEXT_KEY_REQUESTOR];
         $requestorContext = [];
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RemotelyLiving\Doorkeeper\Rules;
 
 use RemotelyLiving\Doorkeeper\Identification;
-use RemotelyLiving\Doorkeeper\Requestor;
+use RemotelyLiving\Doorkeeper\RequestorInterface;
 
 final class UserId extends AbstractRule
 {
@@ -24,7 +24,7 @@ final class UserId extends AbstractRule
         return $this->userId->getIdentifier();
     }
 
-    protected function childCanBeSatisfied(Requestor $requestor = null): bool
+    protected function childCanBeSatisfied(RequestorInterface $requestor = null): bool
     {
         return $this->requestorHasMatchingId($requestor, $this->userId);
     }

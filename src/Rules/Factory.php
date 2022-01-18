@@ -29,6 +29,7 @@ final class Factory
             $preReqType = $this->normalizeRuleType($prequisite['type']);
             $preReq = isset($prequisite['value']) ? new $preReqType($prequisite['value']) : new $preReqType();
 
+            // @phpstan-ignore-next-line
             $rule->addPrerequisite($preReq);
         }
 

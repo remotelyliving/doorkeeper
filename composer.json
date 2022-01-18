@@ -15,7 +15,7 @@
     "psr/cache": "^1.0",
     "psr/log": "^1.0",
     "psr/http-message": "^1.0",
-    "ramsey/uuid": "^3.8",
+    "ramsey/uuid": "^3.8 || ^4.0",
     "ext-json": "*",
     "ext-filter": "*",
     "ext-mbstring": "*",

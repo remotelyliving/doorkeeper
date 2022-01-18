@@ -1,12 +1,12 @@
 build:
   environment:
     php:
-      version: '7.4.5'
+      version: '8.0.15'
   nodes:
     my-tests:
       environment:
         php:
-          version: '7.4.5'
+          version: '8.0.15'
       cache:
         disabled: true
 

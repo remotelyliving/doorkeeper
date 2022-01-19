@@ -32,7 +32,7 @@ final class SetRepository
             $this->saveFeatureSet($fallback->getFeatureSet());
         }
 
-        return ($result) ?? new Set();
+        return ($result instanceof Set) ? $result : new Set();
     }
 
     public function deleteFeatureSet(): void

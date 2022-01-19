@@ -72,7 +72,7 @@ final class Doorkeeper implements DoorkeeperInterface
                 return false;
             }
 
-            if ($feature->isEnabled() && !$feature->getRules()) {
+            if (!$feature->getRules()) {
                 return true;
             }
 

@@ -43,7 +43,7 @@ class DoorKeeperTest extends TestCase
 
         $feature5 = new Features\Feature('no rules', true);
         $this->featureSet = new Features\Set([$feature1, $feature2, $feature3, $feature4, $feature5]);
-        $this->logger = new Log\Test\TestLogger();
+        $this->logger = new Log\NullLogger();
         $this->doorkeeper = new Doorkeeper($this->featureSet, null, $this->logger);
     }
 

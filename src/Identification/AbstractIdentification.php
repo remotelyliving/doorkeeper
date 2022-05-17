@@ -53,6 +53,6 @@ abstract class AbstractIdentification implements IdentificationInterface
 
     private static function createIdentityHash(IdentificationInterface $identification): string
     {
-        return md5($identification->getType() . (string)$identification->getIdentifier());
+        return md5($identification->getType() . $identification->getIdentifier());
     }
 }

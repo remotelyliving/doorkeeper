@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class SetRepositoryTest extends TestCase
 {
-
     private PSRCache\CacheItemPoolInterface $cache;
 
     private Features\SetRepository $sut;

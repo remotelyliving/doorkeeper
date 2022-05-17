@@ -11,21 +11,21 @@
     }
   ],
   "require": {
-    "php": ">=7.4",
-    "psr/cache": "^1.0",
-    "psr/log": "^1.0",
+    "php": ">=8.0",
+    "psr/cache": "^1.0 || ^2.0 || ^3.0",
+    "psr/log": "^2.0 || ^3.0",
     "psr/http-message": "^1.0",
-    "ramsey/uuid": "^3.8",
+    "ramsey/uuid": "^3.8 || ^4.0",
     "ext-json": "*",
     "ext-filter": "*",
     "ext-mbstring": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.0",
+    "phpunit/phpunit": "^9.5",
     "squizlabs/php_codesniffer": "^3.0",
     "php-coveralls/php-coveralls": "^2.0",
-    "phpstan/phpstan": "^0.12.19",
-    "maglnet/composer-require-checker": "^2.1"
+    "phpstan/phpstan": "^1.4",
+    "maglnet/composer-require-checker": "^4.0"
   },
   "autoload": {
     "psr-4": {
@@ -35,6 +35,11 @@
   "autoload-dev": {
     "psr-4": {
       "RemotelyLiving\\Doorkeeper\\Tests\\" : "tests/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "ocramius/package-versions": true
     }
   }
 }
